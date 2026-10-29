@@ -1,0 +1,26 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "JAVA-001",
+        "name": "Provinsi Uji Jawa",
+        "country": "IDN",
+        "owner": "IDN"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [110.0, -7.0],
+            [110.5, -7.0],
+            [110.5, -7.5],
+            [110.0, -7.5],
+            [110.0, -7.0]
+          ]
+        ]
+      }
+    }
+  ]
+}

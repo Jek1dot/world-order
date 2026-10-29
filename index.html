@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>World Order v0.1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div><strong>WORLD ORDER</strong><small> MODERN GRAND STRATEGY · v0.1</small></div>
+        <div class="clock"><span id="date">1 Jan 2026</span><button id="pause">▶ Main</button><button
+                id="speed">1×</button></div>
+    </header>
+    <main>
+        <section class="map-area">
+            <div class="map-title">PETA DUNIA <span>Ketuk negara untuk memilih</span></div>
+        <div class="map-controls">
+    <button id="zoom-world">🌍 Dunia</button>
+    <button id="zoom-indonesia">🇮🇩 Indonesia</button>
+    <button id="zoom-java">📍 Pulau Jawa</button>
+</div>
+
+<svg
+    id="map"
+    viewBox="0 0 1000 510"
+    role="img"
+    aria-label="Peta dunia interaktif">
+</svg>
+            <div class="hint">Peta prototipe menggunakan batas negara sederhana dari Natural Earth (GeoJSON via CDN).
+                Koneksi internet diperlukan saat pertama dibuka.</div>
+        </section>
+        <aside>
+            <div class="eyebrow">NEGARA TERPILIH</div>
+            <h1 id="country">Indonesia</h1>
+            <div class="flag" id="flag">🇮🇩</div>
+            <div class="stat"><span>GDP (simulasi)</span><b id="gdp">$1.4 T</b></div>
+            <div class="stat"><span>Populasi (simulasi)</span><b id="population">280 juta</b></div>
+            <div class="stat"><span>Stabilitas</span><b id="stability">70%</b></div>
+            <div class="stat"><span>Industri</span><b id="industry">20</b></div>
+            <div class="stat"><span>Anggaran</span><b id="budget">$100 B</b></div><button class="primary"
+                id="choose">Pimpin negara ini</button>
+            <p id="notice">Pilih negara pada peta untuk melihat data.</p>
+            <div class="actions"><button id="build">Bangun industri (-$10 B)</button><button
+                    id="save">Simpan</button><button id="load">Muat</button></div>
+            <p class="note">Angka ekonomi adalah data permainan ilustratif, bukan statistik resmi.</p>
+        </aside>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
