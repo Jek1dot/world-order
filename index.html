@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>World Order v0.1</title>
+    <title>World Order v0.3</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <header>
-        <div><strong>WORLD ORDER</strong><small> MODERN GRAND STRATEGY · v0.1</small></div>
+        <div><strong>WORLD ORDER</strong><small> MODERN GRAND STRATEGY · v0.3</small></div>
         <div class="clock"><span id="date">1 Jan 2026</span><button id="pause">▶ Main</button><button
                 id="speed">1×</button></div>
     </header>
@@ -29,7 +29,8 @@
     role="img"
     aria-label="Peta dunia interaktif">
 </svg>
-            <div class="hint">Peta prototipe menggunakan batas negara sederhana dari Natural Earth (GeoJSON via CDN).
+            <div id="map-tooltip"></div>
+            <div class="hint">Batas negara dan provinsi dari Natural Earth. Zoom in (scroll mouse atau tombol Indonesia / Pulau Jawa) untuk melihat provinsi.
                 Koneksi internet diperlukan saat pertama dibuka.</div>
         </section>
         <aside>
@@ -40,7 +41,10 @@
             <div class="stat"><span>Populasi (simulasi)</span><b id="population">280 juta</b></div>
             <div class="stat"><span>Stabilitas</span><b id="stability">70%</b></div>
             <div class="stat"><span>Industri</span><b id="industry">20</b></div>
-            <div class="stat"><span>Anggaran</span><b id="budget">$100 B</b></div><button class="primary"
+            <div class="stat"><span>Anggaran</span><b id="budget">$100 B</b></div>
+            <div class="eyebrow province-eyebrow">PROVINSI TERPILIH</div>
+            <div class="stat"><span>Provinsi</span><b id="province-name">—</b></div>
+            <div class="stat"><span>Negara pemilik</span><b id="province-owner">—</b></div><button class="primary"
                 id="choose">Pimpin negara ini</button>
             <p id="notice">Pilih negara pada peta untuk melihat data.</p>
             <div class="actions"><button id="build">Bangun industri (-$10 B)</button><button

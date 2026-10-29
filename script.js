@@ -5,6 +5,7 @@ const game = {
   running: false,
   speed: 1,
   selected: "IDN",
+  selectedProvince: null,
   player: null,
   countries: {},
 };
@@ -118,6 +119,7 @@ function select(id) {
     .querySelectorAll(".land")
     .forEach((el) => el.classList.toggle("selected", el.dataset.id === id));
   show();
+  updateProvinceHighlight(id);
 }
 $("choose").onclick = () => {
   game.player = game.selected;
@@ -267,6 +269,10 @@ worldRight.setAttribute("transform", "translate(1000, 0)");
 svg.insertBefore(worldLeft, worldLayer);
 svg.appendChild(worldRight);
 
+// Pastikan lapisan provinsi selalu berada di atas peta dunia
+const existingProvinceLayer = document.getElementById("province-root");
+if (existingProvinceLayer) svg.appendChild(existingProvinceLayer);
+
 // Klik negara pada salinan tetap memilih negara yang sama
 for (const layer of [worldLeft, worldRight]) {
     layer.addEventListener("click", (event) => {
@@ -314,6 +320,7 @@ document.getElementById('zoom-java').onclick = () => {
 // ===== WORLD ORDER v0.2: DRAG MAP =====
 
 let isDraggingMap = false;
+let dragMoved = false; // true kalau mouse sudah bergeser cukup jauh (benar-benar drag)
 let dragStartPoint = null;
 let dragStartViewBox = null;
 
@@ -323,6 +330,7 @@ mapCamera.addEventListener('pointerdown', (event) => {
     if (event.button !== 0) return;
 
     isDraggingMap = true;
+    dragMoved = false;
     dragStartPoint = {
         x: event.clientX,
         y: event.clientY
@@ -337,12 +345,24 @@ mapCamera.addEventListener('pointerdown', (event) => {
         height: dragStartViewBox.height
     };
 
-    mapCamera.setPointerCapture(event.pointerId);
-    mapCamera.style.cursor = 'grabbing';
+    // setPointerCapture dipindah ke pointermove, supaya klik biasa tetap sampai ke negara/provinsi
 });
 
 mapCamera.addEventListener('pointermove', (event) => {
     if (!isDraggingMap) return;
+
+    // Baru dianggap drag kalau mouse bergeser lebih dari 5 piksel
+    if (!dragMoved) {
+        const jarak = Math.hypot(
+            event.clientX - dragStartPoint.x,
+            event.clientY - dragStartPoint.y
+        );
+        if (jarak < 5) return;
+
+        dragMoved = true;
+        mapCamera.setPointerCapture(event.pointerId);
+        mapCamera.style.cursor = 'grabbing';
+    }
 
     const rect = mapCamera.getBoundingClientRect();
 
@@ -433,73 +453,284 @@ mapCamera.addEventListener('wheel', (event) => {
 
 }, { passive: false });
 
-// ===== WORLD ORDER: PROVINCE SYSTEM =====
+// ===== WORLD ORDER: PROVINCE SYSTEM v0.3 =====
+// Data asli batas provinsi (Natural Earth, domain publik):
+//   data/provinces.geojson -> ~4.500 provinsi di seluruh dunia
+//   data/borders.geojson   -> garis batas antar negara (tebal, seperti di HOI4)
 
-// Membaca data provinsi dari folder data
-fetch("./data/provinces.geojson")
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Gagal membaca GeoJSON: " + response.status);
-    }
+// Provinsi hanya digambar kalau peta sudah di-zoom (lebar viewBox <= angka ini).
+// Angka lebih besar = provinsi tampil lebih awal, tapi peta jadi lebih berat.
+const PROVINCE_LOD_WIDTH = 400;
 
-    return response.json();
-  })
-  .then((data) => {
-    console.log("PROVINCE SYSTEM READY!");
-    console.log("Jumlah provinsi:", data.features.length);
-    // ===== DRAW PROVINCES ON MAP =====
-const svg = document.getElementById("map");
-const NS = "http://www.w3.org/2000/svg";
+// id provinsi -> { name, country, countryName }
+const provinceInfo = new Map();
 
-// Buat lapisan khusus provinsi
-const provinceLayer = document.createElementNS(NS, "g");
-provinceLayer.setAttribute("id", "province-layer");
-svg.appendChild(provinceLayer);
-
-// Gunakan proyeksi yang sama dengan peta dunia
-function projectProvince(point) {
-    const lon = point[0];
-    const lat = point[1];
-
-    return [
-        ((lon + 180) * 1000) / 360,
-        ((90 - lat) * 510) / 180
-    ];
+// Proyeksi sama persis dengan peta dunia: lon/lat -> koordinat SVG
+function projectLonLat(lon, lat) {
+    const y = Math.max(-85, Math.min(85, lat));
+    return [((lon + 180) * 1000) / 360, ((90 - y) * 510) / 180];
 }
 
-// Gambar setiap provinsi
-data.features.forEach((feature) => {
-    if (feature.geometry.type !== "Polygon") return;
+// Satu ring/garis koordinat -> teks path SVG
+function coordsToPathData(coords, closePath) {
+    let d = "";
+    for (let i = 0; i < coords.length; i++) {
+        const [x, y] = projectLonLat(coords[i][0], coords[i][1]);
+        d += (i === 0 ? "M" : "L") + x.toFixed(2) + "," + y.toFixed(2);
+    }
+    return closePath ? d + "Z" : d;
+}
 
-    const rings = feature.geometry.coordinates;
+// Geometry GeoJSON (Polygon, MultiPolygon, LineString, MultiLineString) -> teks path SVG
+function geometryToPathData(geometry) {
+    if (!geometry) return "";
+    const c = geometry.coordinates;
 
-    const d = rings.map((ring) => {
-        return ring.map((point, index) => {
-            const [x, y] = projectProvince(point);
+    if (geometry.type === "Polygon") {
+        return c.map((ring) => coordsToPathData(ring, true)).join("");
+    }
+    if (geometry.type === "MultiPolygon") {
+        return c
+            .map((poly) => poly.map((ring) => coordsToPathData(ring, true)).join(""))
+            .join("");
+    }
+    if (geometry.type === "LineString") {
+        return coordsToPathData(c, false);
+    }
+    if (geometry.type === "MultiLineString") {
+        return c.map((line) => coordsToPathData(line, false)).join("");
+    }
+    return "";
+}
 
-            return `${index === 0 ? "M" : "L"}${x},${y}`;
-        }).join(" ") + " Z";
-    }).join(" ");
+function hashString(text) {
+    let h = 0;
+    for (let i = 0; i < text.length; i++) {
+        h = (h * 31 + text.charCodeAt(i)) | 0;
+    }
+    return Math.abs(h);
+}
 
-    const path = document.createElementNS(NS, "path");
+// Setiap negara dapat warna sendiri. Sudut 137.5 derajat membuat warna
+// negara yang berurutan tetap berbeda jauh satu sama lain.
+function buildCountryColors(features) {
+    const codes = [...new Set(features.map((f) => f.properties.country))].sort();
+    const lightness = [38, 47, 31];
+    const colors = {};
 
-    path.setAttribute("d", d);
-    path.setAttribute("fill", "#facc15");
-    path.setAttribute("fill-opacity", "0.75");
-    path.setAttribute("stroke", "#111827");
-    path.setAttribute("stroke-width", "0.15");
-    path.setAttribute("class", "province");
-
-    path.addEventListener("click", (event) => {
-        event.stopPropagation();
-        alert("Provinsi: " + feature.properties.name);
+    codes.forEach((code, i) => {
+        colors[code] = { hue: (i * 137.508) % 360, light: lightness[i % 3] };
     });
 
-    provinceLayer.appendChild(path);
-});
+    return colors;
+}
 
-console.log("Province layer rendered!");
-  })
-  .catch((error) => {
-    console.error("PROVINCE SYSTEM ERROR:", error);
-  });
+function escapeForSelector(text) {
+    return window.CSS && CSS.escape
+        ? CSS.escape(text)
+        : String(text).replace(/["\\]/g, "\\$&");
+}
+
+// Dipanggil oleh select() setiap negara dipilih.
+// Menyorot negara terpilih + provinsi terpilih lewat satu tag <style>
+// (jauh lebih ringan daripada mengubah ribuan elemen satu per satu).
+function updateProvinceHighlight(countryId) {
+    // Kalau yang dipilih negara lain, lepaskan pilihan provinsi
+    const current = game.selectedProvince && provinceInfo.get(game.selectedProvince);
+    if (current && current.country !== countryId) {
+        game.selectedProvince = null;
+    }
+
+    let style = document.getElementById("province-highlight-style");
+    if (!style) {
+        style = document.createElement("style");
+        style.id = "province-highlight-style";
+        document.head.appendChild(style);
+    }
+
+    const rules = [];
+    if (countryId) {
+        rules.push(
+            '.province[data-c="' + escapeForSelector(countryId) + '"]' +
+            "{fill-opacity:1;stroke:#fde68a;}"
+        );
+    }
+    if (game.selectedProvince) {
+        rules.push(
+            '.province[data-id="' + escapeForSelector(game.selectedProvince) + '"]' +
+            "{fill:#fb923c;fill-opacity:1;stroke:#ffffff;stroke-width:1.8;}"
+        );
+    }
+    style.textContent = rules.join("\n");
+
+    // Panel kanan
+    const info = game.selectedProvince && provinceInfo.get(game.selectedProvince);
+    const nameBox = document.getElementById("province-name");
+    const ownerBox = document.getElementById("province-owner");
+    if (nameBox) nameBox.textContent = info ? info.name : "—";
+    if (ownerBox) ownerBox.textContent = info ? info.countryName : "—";
+}
+
+function loadJson(url, required) {
+    return fetch(url)
+        .then((response) => {
+            if (!response.ok) throw new Error(url + " -> HTTP " + response.status);
+            return response.json();
+        })
+        .catch((error) => {
+            if (required) throw error;
+            console.warn("Data opsional gagal dimuat:", error.message);
+            return null;
+        });
+}
+
+Promise.all([
+    loadJson("./data/provinces.geojson", true),
+    loadJson("./data/borders.geojson", false),
+])
+    .then(([provinces, borders]) => {
+        const svg = document.getElementById("map");
+        const NS = "http://www.w3.org/2000/svg";
+        const features = provinces.features.filter((f) => f.geometry);
+
+        console.log("PROVINCE SYSTEM READY! Jumlah provinsi:", features.length);
+
+        // ----- 1. Lapisan utama: provinsi + batas negara -----
+        const mainLayer = document.createElementNS(NS, "g");
+        mainLayer.setAttribute("id", "province-layer");
+
+        const colors = buildCountryColors(features);
+        const fragment = document.createDocumentFragment();
+
+        for (const feature of features) {
+            const p = feature.properties;
+            const d = geometryToPathData(feature.geometry);
+            if (!d) continue;
+
+            provinceInfo.set(p.id, {
+                name: p.name,
+                country: p.country,
+                countryName: p.country_name,
+            });
+
+            const color = colors[p.country];
+            const light = color.light + (hashString(p.id) % 7) - 3;
+
+            const path = document.createElementNS(NS, "path");
+            path.setAttribute("d", d);
+            path.setAttribute("class", "province");
+            path.setAttribute("fill-rule", "evenodd");
+            path.setAttribute("fill", "hsl(" + color.hue.toFixed(0) + ",42%," + light + "%)");
+            path.dataset.id = p.id;
+            path.dataset.c = p.country;
+            fragment.appendChild(path);
+        }
+        mainLayer.appendChild(fragment);
+
+        if (borders && borders.features) {
+            const borderPath = document.createElementNS(NS, "path");
+            borderPath.setAttribute("class", "country-borders");
+            borderPath.setAttribute(
+                "d",
+                borders.features.map((f) => geometryToPathData(f.geometry)).join("")
+            );
+            mainLayer.appendChild(borderPath);
+        }
+
+        // ----- 2. Salinan kiri & kanan untuk world wrapping -----
+        const leftLayer = mainLayer.cloneNode(true);
+        leftLayer.setAttribute("id", "province-layer-left");
+        leftLayer.setAttribute("transform", "translate(-1000, 0)");
+
+        const rightLayer = mainLayer.cloneNode(true);
+        rightLayer.setAttribute("id", "province-layer-right");
+        rightLayer.setAttribute("transform", "translate(1000, 0)");
+
+        const root = document.createElementNS(NS, "g");
+        root.setAttribute("id", "province-root");
+        root.appendChild(leftLayer);
+        root.appendChild(mainLayer);
+        root.appendChild(rightLayer);
+        svg.appendChild(root);
+
+        // ----- 3. Klik provinsi (satu listener untuk semua provinsi & salinannya) -----
+        root.addEventListener("click", (event) => {
+            const path = event.target.closest(".province");
+            if (!path) return;
+            event.stopPropagation();
+
+            const id = path.dataset.id;
+            const info = provinceInfo.get(id);
+            if (!info) return;
+
+            // Pilih provinsi, sekaligus negara pemiliknya
+            game.selectedProvince = id;
+            const country = getCountry(info.country);
+            if (!seed[info.country] && country.name === info.country) {
+                country.name = info.countryName;
+            }
+            select(info.country);
+
+            $("notice").textContent =
+                "Provinsi dipilih: " + info.name + " (" + info.countryName + ")";
+        });
+
+        // ----- 4. Tooltip nama provinsi saat mouse melintas -----
+        const tooltip = document.getElementById("map-tooltip");
+
+        svg.addEventListener("pointermove", (event) => {
+            if (!tooltip) return;
+
+            const path = event.target.closest ? event.target.closest(".province") : null;
+            const info = path ? provinceInfo.get(path.dataset.id) : null;
+
+            if (!info) {
+                tooltip.style.display = "none";
+                return;
+            }
+
+            const box = svg.parentElement.getBoundingClientRect();
+            tooltip.textContent = info.name + " — " + info.countryName;
+            tooltip.style.left = event.clientX - box.left + 14 + "px";
+            tooltip.style.top = event.clientY - box.top + 14 + "px";
+            tooltip.style.display = "block";
+        });
+
+        svg.addEventListener("pointerleave", () => {
+            if (tooltip) tooltip.style.display = "none";
+        });
+
+        // ----- 5. Level of detail: provinsi hanya tampil saat peta di-zoom -----
+        // Dipantau lewat perubahan atribut viewBox, jadi kode zoom/drag lama tidak perlu diubah.
+        function updateProvinceVisibility() {
+            const vb = (svg.getAttribute("viewBox") || "0 0 1000 510")
+                .trim()
+                .split(/\s+/)
+                .map(Number);
+            const x = vb[0];
+            const width = vb[2];
+
+            const zoomedIn = width <= PROVINCE_LOD_WIDTH;
+            root.style.display = zoomedIn ? "" : "none";
+            if (!zoomedIn) return;
+
+            // Salinan kiri/kanan hanya dirender kalau kamera melewati tepi dunia
+            leftLayer.style.display = x < 0 ? "" : "none";
+            rightLayer.style.display = x + width > 1000 ? "" : "none";
+        }
+
+        new MutationObserver(updateProvinceVisibility).observe(svg, {
+            attributes: true,
+            attributeFilter: ["viewBox"],
+        });
+        updateProvinceVisibility();
+
+        // Sinkronkan sorotan dengan negara yang sedang dipilih
+        updateProvinceHighlight(game.selected);
+
+        console.log("Province layer rendered!");
+    })
+    .catch((error) => {
+        console.error("PROVINCE SYSTEM ERROR:", error);
+        $("notice").textContent = "Error provinsi: " + error.message;
+    });
