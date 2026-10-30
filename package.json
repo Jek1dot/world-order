@@ -1,0 +1,16 @@
+{
+  "name": "world-order",
+  "version": "0.4.0",
+  "private": true,
+  "description": "World Order - grand strategy sandbox berbasis browser (HTML/CSS/JS vanilla + SVG)",
+  "scripts": {
+    "test": "node tests/scenario.js && node tests/rules.js && node tests/test_ui.js",
+    "sim": "node tests/long_sim.js 365",
+    "profile": "node tests/profile.js",
+    "build-data": "bash tools/build_data.sh"
+  },
+  "devDependencies": {
+    "jsdom": "^30.1.3",
+    "mapshaper": "^0.7.101"
+  }
+}
