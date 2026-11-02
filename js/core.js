@@ -5,8 +5,9 @@
   "use strict";
   const WO = (root.WO = root.WO || {});
 
-  WO.VERSION = "0.4.0";
-  WO.SAVE_SCHEMA = 4;
+  WO.VERSION = "0.5.0-alpha.1";
+  WO.SAVE_SCHEMA = 5;            // 5: + mods, focus, flags, eventQueue, events (save skema 4 dimigrasi otomatis)
+  WO.SAVE_COMPAT = [4, 5];
   WO.SAVE_KEY = "worldOrderV04";
   WO.START_DATE_UTC = Date.UTC(2026, 0, 1);
 

@@ -20,6 +20,7 @@
     const c = state.countries[iso];
     if (c.capitulated) return;
     const atWar = state.rt.enemies[iso].size > 0;
+    WO.Focus.aiPick(state, iso);
     if (atWar) WO.Cap.aiMaybeRelocate(state, iso);
     AI.economy(state, iso, atWar);
     AI.recruit(state, iso, atWar);

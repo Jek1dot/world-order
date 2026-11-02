@@ -138,5 +138,21 @@ const fresh = (p) => { const s = S.newGame({ seed: 3 }); if (p) S.setPlayer(s, p
   const s2 = fresh("IDN"); WO.Dip.declareWar(s2, "IDN", "TLS");
   check("aneksasi ditolak bila skor perang kurang", !WO.War.settle(s2, "IDN", "TLS", { annex: true }).ok);
 }
+
+// --- regresi: divisi yang ada di dua pertempuran sekaligus lalu hancur di yang pertama ---
+{
+  const s = fresh(); const A = "IDN", D = "TLS";
+  const P = pid("Bobonaro", "TLS"), T = pid("Cova Lima", "TLS"), from = pid("Nusa Tenggara Timur", "IDN");
+  check("Bobonaro & Cova Lima bertetangga (prasyarat uji)", W.isAdjacent(P, T) && W.isAdjacent(from, P));
+  WO.Dip.declareWar(s, A, D);
+  for (const d of Object.values(s.divisions)) if (d.country === A || d.country === D) S.removeDivision(s, d.id);
+  const Y = S.createDivision(s, A, "infantry", from, { training: false });          // Y menyerang P (diproses pertama)
+  const X = S.createDivision(s, A, "infantry", P, { training: false });             // X berada di P DAN berniat menyerang T
+  S.createDivision(s, D, "infantry", P, { training: false }); S.createDivision(s, D, "infantry", P, { training: false }); S.createDivision(s, D, "infantry", T, { training: false });
+  X.str = 0.6; X.org = 2; Y.attacking = P; X.attacking = T;
+  let threw = null; try { WO.War.resolveCombat(s); } catch (e) { threw = e.message; }
+  check("pertempuran ganda dengan penyerang yang hancur di pertempuran pertama tidak crash", threw === null, threw);
+  check("divisi yang hancur benar-benar dihapus & invarian valid", !s.divisions[X.id] && WO.Save.validate(s, false).length === 0, WO.Save.validate(s, false).join(";"));
+}
 console.log("\n" + (fails ? fails + " DARI " + n + " GAGAL" : "SEMUA " + n + " PENGECEKAN ATURAN LOLOS"));
 process.exit(fails ? 1 : 0);

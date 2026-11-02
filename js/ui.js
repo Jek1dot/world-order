@@ -26,7 +26,12 @@
   // ---------- inisialisasi ----------
   UI.init = function (game) {
     ui.game = game;
-    $("tabs").addEventListener("click", (e) => { const b = e.target.closest("button[data-tab]"); if (b) UI.setTab(b.dataset.tab); });
+    UI.buildNav(); UI.hydrateIcons(); UI.initPanelEvents();
+    $("win-close").addEventListener("click", () => UI.closeWindow());
+    $("tabs").addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-tab]"); if (!b || b.disabled) return;
+      if (ui.tab === b.dataset.tab && !$("window").hidden) UI.closeWindow(); else UI.setTab(b.dataset.tab);
+    });
     $("panel").addEventListener("click", onPanelClick);
     $("mode-buttons").addEventListener("click", (e) => {
       const b = e.target.closest(".mode-btn"); if (!b) return;
@@ -43,9 +48,12 @@
     document.addEventListener("keydown", (e) => {
       if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
       if (e.code === "Space") { e.preventDefault(); game.togglePause(); }
-      else if (e.key === "Escape") { ui.orderMode = false; ui.selDivs.clear(); ui.preview = null; UI.updateOrderHint(); UI.refresh(true); }
+      else if (e.key === "Escape") {
+        if (ui.orderMode || ui.selDivs.size) { ui.orderMode = false; ui.selDivs.clear(); ui.preview = null; UI.updateOrderHint(); UI.refresh(true); }
+        else UI.closeWindow();
+      } else if (!e.ctrlKey && !e.metaKey && !e.altKey && UI.KEYS[e.key.toLowerCase()]) { const t = UI.KEYS[e.key.toLowerCase()]; const b = document.querySelector('#tabs [data-tab="' + t + '"]'); if (b && !b.disabled) { if (ui.tab === t && !$("window").hidden) UI.closeWindow(); else UI.setTab(t); } }
     });
-    UI.setTab("country");
+    UI.setTab("country", true);
   };
 
   // hooks yang dipakai peta
@@ -79,11 +87,15 @@
     };
   };
 
-  UI.setTab = function (tab) {
+  UI.setTab = function (tab, silent) {
     ui.tab = tab;
-    document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("active", b.dataset.tab === tab));
+    const nav = UI.NAV.find((n) => n.tab === tab);
+    document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("active", !silent && b.dataset.tab === tab));
+    const win = $("window");
+    if (win) { win.hidden = !!silent; win.classList.toggle("wide", !!(nav && nav.wide)); $("win-title").textContent = nav ? nav.full : tab; }
     UI.drawPanel();
   };
+  UI.closeWindow = function () { const w = $("window"); if (w) w.hidden = true; document.querySelectorAll("#tabs button").forEach((b) => b.classList.remove("active")); };
 
   // ---------- seleksi ----------
   UI.selectProvince = function (pid, switchTab) {
@@ -183,6 +195,11 @@
       case "declineoffer": UI.report(WO.War.declinePeaceOffer(st, d.c)); return;
       case "scenario": ui.game.startScenario(); return;
       case "tab": UI.setTab(d.tab); return;
+      case "focussel": UI.focusSelect(d.id); return;
+      case "focusstart": UI.report(WO.Focus.start(st, me, d.id)); return;
+      case "focuscancel": UI.report(WO.Focus.cancel(st, me)); return;
+      case "focuszoom": UI.focusZoom(+d.d); return;
+      case "mapmode": { const b = document.querySelector('.mode-btn[data-mode="' + d.mode + '"]'); if (b) b.click(); return; }
       case "settings-ai": st.settings.aiAggressive = !st.settings.aiAggressive; UI.toast("AI agresif: " + (st.settings.aiAggressive ? "AKTIF" : "mati"), "warn"); UI.drawPanel(); return;
     }
     UI.refresh(true);
@@ -195,6 +212,7 @@
     const scroll = p.scrollTop;
     p.innerHTML = fn ? fn(st, ui) : "";
     p.scrollTop = scroll;
+    if (UI.afterDraw[ui.tab]) UI.afterDraw[ui.tab](st, ui);
     ui.lastPanelDraw = Date.now();
     $("tab-mission").hidden = !st.flags || st.flags.scenario === undefined;
   };
@@ -206,6 +224,19 @@
     $("top-flag").textContent = me ? st.player : "--";
     $("top-flag").style.background = me ? MV.countryColor(st.player) : "#445";
     $("top-country-name").textContent = me ? W.countries[st.player].name : "Pilih negara di peta";
+    $("st-factories").textContent = me ? (me.agg ? me.agg.civ + " / " + me.agg.mil : "–") : "–";
+    $("st-divisions").textContent = me ? WO.Eco.armyCount(st, st.player) : "–";
+    const ld = $("top-leader");
+    if (ld) {
+      let t = "";
+      if (me && WO.DB.ready) {
+        if (WO.DB._leaders[st.player] === undefined) WO.DB.loadLeaders(st.player).then(() => UI.updateTop());
+        const r = WO.DB.leadersAt(st.player, WO.DB.isoOfDay(st.day));
+        if (r && r.head_of_state && r.head_of_state.person) t = r.head_of_state.tenure.office_title.replace(" of " + W.countries[st.player].name, "") + ": " + r.head_of_state.person.name;
+        else if (me) t = WO.DB.hasLeaders(st.player) ? "" : "pemimpin: data belum tersedia";
+      }
+      ld.textContent = t;
+    }
     $("st-treasury").textContent = me ? "$" + UI.fmt1(me.treasury) + " M" : "–";
     $("st-manpower").textContent = me ? UI.fmt(me.manpower / 1000) + " rb" : "–";
     $("st-stability").textContent = me ? UI.fmt(me.stability) + "%" : "–";
@@ -233,11 +264,16 @@
     // pesan penting
     while (st.pendingMessages.length) UI.handleMessage(st.pendingMessages.shift());
     // panel (dibatasi ~4x/detik kecuali dipaksa)
-    if (force || (rt.dirty.panels && Date.now() - ui.lastPanelDraw > 250)) { rt.dirty.panels = false; UI.drawPanel(); }
+    const live = ui.tab === "focus" || ui.tab === "database";
+    if (force || (rt.dirty.panels && !live && Date.now() - ui.lastPanelDraw > 250)) { rt.dirty.panels = false; UI.drawPanel(); }
+    else if (live && rt.dirty.panels) { rt.dirty.panels = false; if (UI.liveUpdate) UI.liveUpdate(st, ui); }
+    UI.updateAlerts();
   };
 
   UI.handleMessage = function (m) {
     const st = UI.state(), me = st.player;
+    if (m.kind === "event") { if (ui.game.autoPause) ui.game.pause(); UI.showNewspaper(m.eventId); return; }
+    if (m.kind === "focus") { UI.toast(m.text, "good"); return; }
     if (m.kind === "gameover") { ui.game.pause(); UI.modal("<h2>Negara dianeksasi</h2><p>" + UI.esc(m.text) + "</p>"); return; }
     if (m.kind === "capitulation") {
       const mine = m.country === me, enemy = me && WO.Dip.atWar(st, me, m.country);
@@ -251,6 +287,87 @@
       if (ui.game.autoPause) ui.game.pause();
       UI.toast(m.text + " Lihat tab Perang.", "good"); if (ui.tab === "war") UI.drawPanel();
     }
+  };
+
+  // ---------- navigasi HOI4-style (ikon di kolom kiri) ----------
+  UI.NAV = [
+    { tab: "country", icon: "flag", label: "Politik", full: "Politik & Negara", key: "k" },
+    { tab: "focus", icon: "star", label: "Fokus", full: "Fokus Nasional", key: "f", wide: true },
+    { tab: "decisions", icon: "scroll", label: "Putusan", full: "Keputusan", na: "Keputusan (decisions)" },
+    { tab: "research", icon: "book", label: "Riset", full: "Riset", na: "Riset & teknologi" },
+    { sp: true },
+    { tab: "build", icon: "crane", label: "Bangun", full: "Konstruksi", key: "c" },
+    { tab: "production", icon: "factory", label: "Produksi", full: "Produksi", key: "p" },
+    { tab: "logistics", icon: "truck", label: "Logistik", full: "Logistik & Supply", key: "l" },
+    { sp: true },
+    { tab: "military", icon: "soldier", label: "Pasukan", full: "Rekrutmen & Pasukan", key: "m" },
+    { tab: "highcmd", icon: "command", label: "Komando", full: "Komando Tinggi", na: "Grup tentara, garis depan, rencana tempur, template divisi" },
+    { tab: "war", icon: "swords", label: "Perang", full: "Perang & Damai", key: "w" },
+    { sp: true },
+    { tab: "diplomacy", icon: "handshake", label: "Diplomasi", full: "Diplomasi", key: "d" },
+    { tab: "trade", icon: "trade", label: "Dagang", full: "Perdagangan", key: "t" },
+    { tab: "intel", icon: "eye", label: "Intel", full: "Intelijen", na: "Intelijen & operasi" },
+    { sp: true },
+    { tab: "economy", icon: "chart", label: "Ekonomi", full: "Ekonomi", key: "e" },
+    { tab: "province", icon: "pin", label: "Provinsi", full: "Provinsi", key: "v" },
+    { tab: "log", icon: "list", label: "Log", full: "Log Kejadian", key: "g" },
+    { tab: "database", icon: "db", label: "Data", full: "Database Sejarah", key: "b", wide: true },
+    { tab: "mission", icon: "flagmission", label: "Misi", full: "Misi Latihan", hidden: true },
+  ];
+  UI.KEYS = {}; UI.NAV.forEach((n) => { if (n.key) UI.KEYS[n.key] = n.tab; });
+  UI.buildNav = function () {
+    const nav = $("tabs"); nav.textContent = "";
+    for (const n of UI.NAV) {
+      if (n.sp) { const d = document.createElement("div"); d.className = "sp"; nav.appendChild(d); continue; }
+      const b = document.createElement("button");
+      b.dataset.tab = n.tab; if (n.tab === "mission") { b.id = "tab-mission"; b.hidden = true; }
+      b.innerHTML = WO.Icons.svg(n.icon, 22) + "<span>" + n.label + "</span>";
+      b.title = n.na ? n.full + " — BELUM TERSEDIA (" + n.na + "); roadmap v0.5" : n.full + (n.key ? " (" + n.key.toUpperCase() + ")" : "");
+      if (n.na) { b.disabled = true; b.classList.add("na"); }
+      nav.appendChild(b);
+    }
+  };
+  UI.hydrateIcons = function () { document.querySelectorAll("[data-ic]").forEach((e) => { e.innerHTML = WO.Icons.svg(e.dataset.ic, 16); }); };
+  UI.afterDraw = {};
+
+  // ---------- notifikasi (dihitung dari state, bukan hiasan) ----------
+  UI.computeAlerts = function (st) {
+    const me = st.player && st.countries[st.player]; if (!me || !me.exists) return [];
+    const out = [], a = me.agg;
+    if (me.eventQueue.length) out.push({ icon: "news", text: "Event menunggu keputusan (" + me.eventQueue.length + ")", tab: "event", urgent: true });
+    if (st.peaceOffers.some((o) => o.to === st.player)) out.push({ icon: "dove", text: "Tawaran damai", tab: "war", urgent: true });
+    for (const e of st.rt.enemies[st.player]) if (st.countries[e].capitulated) { out.push({ icon: "swords", text: cn(e) + " kapitulasi: tentukan damai", tab: "war", urgent: true }); break; }
+    if (WO.DB.treeFor && WO.DB.treeFor(st.player) && !me.focus.current && WO.Focus.tree(st.player).focuses.some((f) => WO.Focus.status(st, st.player, f.id) === "available")) out.push({ icon: "star", text: "Pilih fokus nasional", tab: "focus" });
+    if (a && !me.queue.length && a.civ > 0) out.push({ icon: "crane", text: "Antrean konstruksi kosong", tab: "build" });
+    if (a && WO.Eco.freeFactories(me) > 0) out.push({ icon: "factory", text: WO.Eco.freeFactories(me) + " pabrik militer menganggur", tab: "production" });
+    if (me.treasury < 0) out.push({ icon: "coins", text: "Kas negatif", tab: "economy", urgent: true });
+    let low = 0; for (const d of WO.State.countryDivisions(st, st.player)) if (st.day >= d.readyDay && d.supply < 0.5) low++;
+    if (low) out.push({ icon: "truck", text: low + " divisi kekurangan supply", tab: "logistics" });
+    return out;
+  };
+  const cn = (iso) => W.countries[iso].name;
+  UI.updateAlerts = function () {
+    const st = UI.state(), box = $("alerts"); if (!st || !box) return;
+    const al = UI.computeAlerts(st), key = JSON.stringify(al.map((x) => x.text));
+    if (box._k === key) return; box._k = key;
+    box.innerHTML = al.map((x, i) => '<button class="alert-btn' + (x.urgent ? " urgent" : "") + '" data-alert="' + i + '" title="' + UI.esc(x.text) + '">' + WO.Icons.svg(x.icon, 15) + "<span>" + UI.esc(x.text) + "</span></button>").join("");
+    box._al = al;
+  };
+  UI.openAlert = function (i) { const a = $("alerts")._al && $("alerts")._al[i]; if (!a) return; if (a.tab === "event") { const q = UI.state().countries[UI.state().player].eventQueue[0]; if (q) UI.showNewspaper(q.id); } else UI.setTab(a.tab); };
+
+  // ---------- surat kabar event ----------
+  UI.showNewspaper = function (eventId) {
+    const st = UI.state(), e = WO.Events.get(eventId); if (!e || !st) return;
+    const hist = e.classification === "historical", c = st.countries[st.player];
+    const tag = hist ? '<span class="np-tag">Peristiwa historis</span>' : '<span class="np-tag">Fiksi gameplay</span>';
+    const html = '<div class="newspaper"><div class="np-mast"><h1>Warta Dunia</h1></div><div class="np-meta"><span>' + WO.dateString(st.day) + "</span><span>" + UI.esc(e.title) + "</span><span>" + (e.countries[0] === "*" ? UI.cname(st.player) : e.countries.map(UI.cname).join(", ")) + "</span></div>" +
+      '<div class="np-head">' + UI.esc(e.headline || e.title) + "</div>" + tag +
+      '<div class="np-flags">' + (e.countries[0] === "*" ? UI.flag(st.player) : e.countries.map(UI.flag).join("")) + "</div>" +
+      '<div class="np-body">' + UI.esc(e.body || "") + "</div>" +
+      (hist && e.factual_summary ? '<div class="np-fact"><b>Fakta sejarah:</b> ' + UI.esc(e.factual_summary) + '<br><span class="np-note">Status data: ' + e.verification.status + " (" + e.verification.confidence + ") — sumber: " + (e.verification.sources || []).map((s) => UI.esc(WO.DB.sources[s] ? WO.DB.sources[s].publisher : s)).join(", ") + ". Konsekuensi di bawah adalah rancangan gameplay.</span></div>" : '<div class="np-note">Peristiwa ini rekaan permainan, bukan fakta sejarah.</div>') + "</div>";
+    const buttons = e.options.map((o) => ({ label: UI.esc(o.label) + "<small>" + o.effects.map((x) => UI.esc(WO.Fx.text(x))).join(" • ") + (o.outcome === "historical" ? " • (hasil historis)" : "") + "</small>", cls: o.outcome === "historical" ? "primary" : "",
+      fn: () => { const r = WO.Events.choose(st, st.player, e.id, o.id); UI.toast(r.ok ? e.title + ": " + r.msg : r.msg, r.ok ? "good" : "bad"); UI.refresh(true); const next = c.eventQueue[0]; if (next) setTimeout(() => UI.showNewspaper(next.id), 50); } }));
+    UI.modal(html, buttons);
   };
 
   // dipanggil main.js saat game dimulai/dimuat

@@ -1,0 +1,482 @@
+{
+ "shard": "small-arms-pilot",
+ "manufacturers": [
+  {
+   "id": "mfr.pt_pindad",
+   "name": "PT Pindad",
+   "country": "IDN",
+   "notes": "BUMN pertahanan Indonesia, berkantor di Bandung",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PINDAD-SS2",
+     "S-MILWIKI-SS1"
+    ],
+    "checked": "2026-10-30"
+   }
+  },
+  {
+   "id": "mfr.fn_herstal",
+   "name": "FN Herstal",
+   "country": "BEL",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-FNC"
+    ],
+    "checked": "2026-10-30"
+   }
+  },
+  {
+   "id": "mfr.carl_gustafs",
+   "name": "Carl Gustafs Stads Gevärsfaktori",
+   "country": "SWE",
+   "notes": "Tercantum sebagai produsen FNC pada infobox",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "low",
+    "sources": [
+     "S-WP-FNC"
+    ],
+    "checked": "2026-10-30"
+   }
+  }
+ ],
+ "models": [
+  {
+   "id": "eq.infantry.fn_fnc",
+   "name": "FN FNC",
+   "category": "infantry_weapons",
+   "family": "FN FNC",
+   "design_country": "BEL",
+   "manufacturers": [
+    "mfr.fn_herstal",
+    "mfr.carl_gustafs",
+    "mfr.pt_pindad"
+   ],
+   "derived_from": null,
+   "development_start_year": 1975,
+   "introduced_year": null,
+   "service_entry_year": null,
+   "retired_year": null,
+   "status": "operational",
+   "license": null,
+   "variants": [],
+   "operators": [],
+   "procurement": [],
+   "notes": "Infobox: dirancang 1975–1977, diproduksi 1979–2004; teks menyebut 'diperkenalkan pada akhir 1970-an'. Daftar operator belum dikumpulkan.",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-FNC"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Hanya sebagai akar keluarga untuk SS1/SS2"
+   }
+  },
+  {
+   "id": "eq.infantry.pindad_ss1",
+   "name": "Pindad SS1",
+   "category": "infantry_weapons",
+   "family": "FN FNC",
+   "design_country": "IDN",
+   "manufacturers": [
+    "mfr.pt_pindad"
+   ],
+   "derived_from": "eq.infantry.fn_fnc",
+   "development_start_year": null,
+   "introduced_year": 1991,
+   "service_entry_year": 1991,
+   "retired_year": null,
+   "status": "operational",
+   "license": {
+    "licensor": "mfr.fn_herstal",
+    "licensee": "mfr.pt_pindad",
+    "note": "Disebut sebagai model FN FNC berlisensi Indonesia"
+   },
+   "variants": [
+    {
+     "id": "eq.infantry.pindad_ss1.v1",
+     "name": "SS1-V1",
+     "status": "operational",
+     "service_entry_year": null,
+     "service_entry_basis": "unknown",
+     "role": "varian utama infanteri reguler",
+     "specs": {
+      "barrel_mm": 449,
+      "mass_kg_no_mag": 4.01,
+      "caliber": "5.56x45mm NATO"
+     },
+     "notes": "Laras standar, popor lipat",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "medium",
+      "sources": [
+       "S-MILWIKI-SS1",
+       "S-WP-PINDAD-SS1"
+      ],
+      "checked": "2026-10-30",
+      "notes": "Tahun masuk dinas varian ini belum ditemukan; sengaja TIDAK disalin dari model dasar"
+     }
+    },
+    {
+     "id": "eq.infantry.pindad_ss1.v2",
+     "name": "SS1-V2",
+     "status": "operational",
+     "service_entry_year": null,
+     "service_entry_basis": "unknown",
+     "role": "karaben",
+     "specs": {
+      "barrel_mm": 363,
+      "mass_kg_no_mag": 3.91,
+      "caliber": "5.56x45mm NATO"
+     },
+     "notes": "Laras pendek",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "medium",
+      "sources": [
+       "S-MILWIKI-SS1"
+      ],
+      "checked": "2026-10-30",
+      "notes": "Tahun masuk dinas varian ini belum ditemukan; sengaja TIDAK disalin dari model dasar"
+     }
+    },
+    {
+     "id": "eq.infantry.pindad_ss1.v4",
+     "name": "SS1-V4",
+     "status": "operational",
+     "service_entry_year": null,
+     "service_entry_basis": "unknown",
+     "role": null,
+     "specs": {
+      "barrel_mm": 449,
+      "caliber": "5.56x45mm NATO"
+     },
+     "notes": "Disebut dalam daftar spesifikasi dan pembelian Laos 2014",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "medium",
+      "sources": [
+       "S-MILWIKI-SS1"
+      ],
+      "checked": "2026-10-30",
+      "notes": "Tahun masuk dinas varian ini belum ditemukan; sengaja TIDAK disalin dari model dasar"
+     }
+    },
+    {
+     "id": "eq.infantry.pindad_ss1.v5",
+     "name": "SS1-V5",
+     "status": "operational",
+     "service_entry_year": null,
+     "service_entry_basis": "unknown",
+     "role": "kompak",
+     "specs": {
+      "barrel_mm": 252,
+      "mass_kg_no_mag": 3.37,
+      "caliber": "5.56x45mm NATO"
+     },
+     "notes": "Varian lain (R5, M1, M2, M5) ada tetapi hubungan dan statusnya belum dicatat",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "medium",
+      "sources": [
+       "S-MILWIKI-SS1"
+      ],
+      "checked": "2026-10-30",
+      "notes": "Tahun masuk dinas varian ini belum ditemukan; sengaja TIDAK disalin dari model dasar"
+     }
+    }
+   ],
+   "operators": [
+    {
+     "country": "IDN",
+     "since_year": 1991,
+     "until_year": null,
+     "basis": "in_service",
+     "notes": "Sedang digantikan SS2 sejak 2005 tetapi masih dipakai infanteri reguler (sumber lama)",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "medium",
+      "sources": [
+       "S-WP-PINDAD-SS1",
+       "S-MILWIKI-SS1"
+      ],
+      "checked": "2026-10-30"
+     }
+    },
+    {
+     "country": "ARE",
+     "since_year": 1992,
+     "until_year": null,
+     "basis": "received",
+     "notes": "'Diekspor pada 1992' (Military Wiki); belum ada konfirmasi jumlah/penggunaan",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "low",
+      "sources": [
+       "S-MILWIKI-SS1"
+      ],
+      "checked": "2026-10-30"
+     }
+    },
+    {
+     "country": "KHM",
+     "since_year": null,
+     "until_year": null,
+     "basis": "received",
+     "notes": "Tercantum sebagai tujuan ekspor; tahun tidak diketahui",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "low",
+      "sources": [
+       "S-MILWIKI-SS1"
+      ],
+      "checked": "2026-10-30"
+     }
+    },
+    {
+     "country": "NGA",
+     "since_year": null,
+     "until_year": null,
+     "basis": "received",
+     "notes": "Tercantum sebagai tujuan ekspor; tahun tidak diketahui",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "low",
+      "sources": [
+       "S-MILWIKI-SS1"
+      ],
+      "checked": "2026-10-30"
+     }
+    }
+   ],
+   "procurement": [
+    {
+     "country": "LAO",
+     "year": 2014,
+     "type": "purchase",
+     "quantity": 35,
+     "delivery": "unknown",
+     "variant": "eq.infantry.pindad_ss1.v2",
+     "notes": "Laos membeli 35 SS1-V2; pengiriman tidak dikonfirmasi — belum dihitung sebagai operator",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "medium",
+      "sources": [
+       "S-WP-PINDAD-SS1"
+      ],
+      "checked": "2026-10-30"
+     }
+    },
+    {
+     "country": "LAO",
+     "year": 2014,
+     "type": "purchase",
+     "quantity": 35,
+     "delivery": "unknown",
+     "variant": "eq.infantry.pindad_ss1.v4",
+     "notes": "Laos membeli 35 SS1-V4",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "medium",
+      "sources": [
+       "S-WP-PINDAD-SS1"
+      ],
+      "checked": "2026-10-30"
+     }
+    }
+   ],
+   "notes": "Infobox: dalam dinas 1991–sekarang.",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PINDAD-SS1",
+     "S-MILWIKI-SS1"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Dua sumber tersier; tidak ada sumber primer (Pindad/Kemhan)"
+   }
+  },
+  {
+   "id": "eq.infantry.pindad_ss2",
+   "name": "Pindad SS2",
+   "category": "infantry_weapons",
+   "family": "FN FNC",
+   "design_country": "IDN",
+   "manufacturers": [
+    "mfr.pt_pindad"
+   ],
+   "derived_from": "eq.infantry.pindad_ss1",
+   "development_start_year": null,
+   "introduced_year": 2005,
+   "service_entry_year": 2006,
+   "retired_year": null,
+   "status": "operational",
+   "license": null,
+   "variants": [
+    {
+     "id": "eq.infantry.pindad_ss2.v1",
+     "name": "SS2-V1",
+     "status": "operational",
+     "service_entry_year": null,
+     "service_entry_basis": "unknown",
+     "role": "senapan standar",
+     "specs": {
+      "barrel_mm": 460,
+      "caliber": "5.56x45mm NATO"
+     },
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "medium",
+      "sources": [
+       "S-WP-PINDAD-SS2",
+       "S-IMFDB-SS2"
+      ],
+      "checked": "2026-10-30",
+      "notes": "Tahun masuk dinas varian ini belum ditemukan; sengaja TIDAK disalin dari model dasar"
+     }
+    },
+    {
+     "id": "eq.infantry.pindad_ss2.v2",
+     "name": "SS2-V2",
+     "status": "operational",
+     "service_entry_year": null,
+     "service_entry_basis": "unknown",
+     "role": "karaben",
+     "specs": {
+      "barrel_mm": 403,
+      "caliber": "5.56x45mm NATO"
+     },
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "medium",
+      "sources": [
+       "S-WP-PINDAD-SS2"
+      ],
+      "checked": "2026-10-30",
+      "notes": "Tahun masuk dinas varian ini belum ditemukan; sengaja TIDAK disalin dari model dasar"
+     }
+    },
+    {
+     "id": "eq.infantry.pindad_ss2.v3",
+     "name": "SS2-V3",
+     "status": "prototype",
+     "service_entry_year": null,
+     "service_entry_basis": "unknown",
+     "role": null,
+     "specs": {},
+     "notes": "Disebut hanya ada sebagai prototipe — tidak dihitung sebagai operasional",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "medium",
+      "sources": [
+       "S-IMFDB-SS2"
+      ],
+      "checked": "2026-10-30",
+      "notes": "Tahun masuk dinas varian ini belum ditemukan; sengaja TIDAK disalin dari model dasar"
+     }
+    },
+    {
+     "id": "eq.infantry.pindad_ss2.v4",
+     "name": "SS2-V4",
+     "status": "operational",
+     "service_entry_year": null,
+     "service_entry_basis": "unknown",
+     "role": "para-sniper/DMR",
+     "specs": {
+      "barrel_mm": 460,
+      "caliber": "5.56x45mm NATO"
+     },
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "medium",
+      "sources": [
+       "S-WP-PINDAD-SS2"
+      ],
+      "checked": "2026-10-30",
+      "notes": "Tahun masuk dinas varian ini belum ditemukan; sengaja TIDAK disalin dari model dasar"
+     }
+    },
+    {
+     "id": "eq.infantry.pindad_ss2.v5",
+     "name": "SS2-V5",
+     "status": "operational",
+     "service_entry_year": 2008,
+     "service_entry_basis": "variant_specific",
+     "role": "kompak",
+     "specs": {
+      "barrel_mm": 252,
+      "caliber": "5.56x45mm NATO"
+     },
+     "notes": "Tahun 2008 dari IMFDB dan forum; keandalan rendah",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "low",
+      "sources": [
+       "S-IMFDB-SS2"
+      ],
+      "checked": "2026-10-30",
+      "notes": "Tahun masuk dinas khusus varian"
+     }
+    },
+    {
+     "id": "eq.infantry.pindad_ss3",
+     "name": "SS3",
+     "status": "demonstrator",
+     "service_entry_year": null,
+     "service_entry_basis": "unknown",
+     "role": "marksman 7.62",
+     "specs": {
+      "caliber": "7.62x51mm NATO"
+     },
+     "notes": "Dipamerkan di Indo Defence 2016; status dinas BELUM diverifikasi",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "medium",
+      "sources": [
+       "S-WP-PINDAD-SS2"
+      ],
+      "checked": "2026-10-30",
+      "notes": "Tahun masuk dinas varian ini belum ditemukan; sengaja TIDAK disalin dari model dasar"
+     }
+    }
+   ],
+   "operators": [
+    {
+     "country": "IDN",
+     "since_year": 2006,
+     "until_year": null,
+     "basis": "in_service",
+     "variants": [],
+     "notes": "Militer dan polisi; varian per unit belum dicatat",
+     "verification": {
+      "status": "partially_verified",
+      "confidence": "medium",
+      "sources": [
+       "S-WP-PINDAD-SS2",
+       "S-SANDBOXX-SS2"
+      ],
+      "checked": "2026-10-30"
+     }
+    }
+   ],
+   "procurement": [],
+   "notes": "Diperkenalkan 2005 menggantikan SS1; masuk dinas 2006. Awal pengembangan hanya 'awal 2000-an' (tahun pasti tidak diketahui). Angka pesanan dari sumber berkeandalan rendah sengaja tidak dimasukkan.",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PINDAD-SS2",
+     "S-SANDBOXX-SS2"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tidak ada sumber primer"
+   }
+  }
+ ]
+}

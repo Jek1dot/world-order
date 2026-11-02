@@ -1,0 +1,694 @@
+{
+ "trees": [
+  {
+   "id": "tree.generic",
+   "kind": "generic",
+   "country": null,
+   "verification": {
+    "status": "fictional_gameplay",
+    "confidence": "high",
+    "notes": "Konten permainan orisinal; bukan klaim historis"
+   },
+   "branches": [
+    {
+     "id": "politics",
+     "title": "Politik"
+    },
+    {
+     "id": "economy",
+     "title": "Ekonomi"
+    },
+    {
+     "id": "industry",
+     "title": "Industri"
+    },
+    {
+     "id": "infrastructure",
+     "title": "Infrastruktur"
+    },
+    {
+     "id": "diplomacy",
+     "title": "Diplomasi"
+    },
+    {
+     "id": "military",
+     "title": "Militer"
+    }
+   ],
+   "focuses": [
+    {
+     "id": "foc.gen.national_unity",
+     "branch": "politics",
+     "x": 0,
+     "y": 0,
+     "days": 35,
+     "icon": "flag",
+     "title": "Persatuan Nasional",
+     "desc": "Kampanye persatuan untuk menenangkan situasi dalam negeri.",
+     "prerequisites": [],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "add_stability",
+       "value": 5
+      }
+     ],
+     "ai_weight": 14,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.administrative_reform",
+     "branch": "politics",
+     "x": 0,
+     "y": 1,
+     "days": 50,
+     "icon": "gear",
+     "title": "Reformasi Administrasi",
+     "desc": "Birokrasi lebih efisien meningkatkan penerimaan pajak.",
+     "prerequisites": [
+      "foc.gen.national_unity"
+     ],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "mod_add",
+       "mod": "income",
+       "pct": 5
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.open_governance",
+     "branch": "politics",
+     "x": -1,
+     "y": 2,
+     "days": 45,
+     "icon": "scale",
+     "title": "Pemerintahan Terbuka",
+     "desc": "Transparansi menambah kepercayaan publik. Tidak bisa digabung dengan negara tersentralisasi.",
+     "prerequisites": [
+      "foc.gen.administrative_reform"
+     ],
+     "any_of": [],
+     "exclusive": [
+      "foc.gen.centralized_state"
+     ],
+     "available": [],
+     "effects": [
+      {
+       "type": "add_stability",
+       "value": 3
+      },
+      {
+       "type": "mod_add",
+       "mod": "income",
+       "pct": 3
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.centralized_state",
+     "branch": "politics",
+     "x": 1,
+     "y": 2,
+     "days": 45,
+     "icon": "tower",
+     "title": "Negara Tersentralisasi",
+     "desc": "Keputusan terpusat mempercepat proyek, dengan harga stabilitas.",
+     "prerequisites": [
+      "foc.gen.administrative_reform"
+     ],
+     "any_of": [],
+     "exclusive": [
+      "foc.gen.open_governance"
+     ],
+     "available": [],
+     "effects": [
+      {
+       "type": "mod_add",
+       "mod": "constr",
+       "pct": 10
+      },
+      {
+       "type": "add_stability",
+       "value": -3
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.fiscal_discipline",
+     "branch": "economy",
+     "x": 3,
+     "y": 0,
+     "days": 40,
+     "icon": "coins",
+     "title": "Disiplin Fiskal",
+     "desc": "Kas negara diperkuat dengan pengetatan anggaran.",
+     "prerequisites": [],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "add_treasury",
+       "pct_gdp": 1
+      }
+     ],
+     "ai_weight": 12,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.trade_expansion",
+     "branch": "economy",
+     "x": 3,
+     "y": 1,
+     "days": 60,
+     "icon": "trade",
+     "title": "Perluasan Perdagangan",
+     "desc": "Pertumbuhan ekonomi meningkat.",
+     "prerequisites": [
+      "foc.gen.fiscal_discipline"
+     ],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "add_growth_pct",
+       "value": 1
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.resource_exploitation",
+     "branch": "economy",
+     "x": 4,
+     "y": 1,
+     "days": 55,
+     "icon": "ore",
+     "title": "Eksploitasi Sumber Daya",
+     "desc": "Pasokan bahan baku ditambah (setara 30 hari produksi).",
+     "prerequisites": [
+      "foc.gen.fiscal_discipline"
+     ],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "add_resource",
+       "res": "steel",
+       "days": 30
+      },
+      {
+       "type": "add_resource",
+       "res": "coal",
+       "days": 30
+      },
+      {
+       "type": "add_resource",
+       "res": "aluminum",
+       "days": 30
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.civil_industry",
+     "branch": "industry",
+     "x": 6,
+     "y": 0,
+     "days": 60,
+     "icon": "factory",
+     "title": "Industri Sipil",
+     "desc": "Dua pabrik sipil baru dibangun di provinsi terbaik.",
+     "prerequisites": [],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "grant_factory",
+       "building": "civ",
+       "count": 2
+      }
+     ],
+     "ai_weight": 15,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.military_industry",
+     "branch": "industry",
+     "x": 6,
+     "y": 1,
+     "days": 60,
+     "icon": "gear",
+     "title": "Industri Militer",
+     "desc": "Satu pabrik militer baru.",
+     "prerequisites": [
+      "foc.gen.civil_industry"
+     ],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "grant_factory",
+       "building": "mil",
+       "count": 1
+      }
+     ],
+     "ai_weight": 12,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.production_lines",
+     "branch": "industry",
+     "x": 7,
+     "y": 1,
+     "days": 50,
+     "icon": "crate",
+     "title": "Lini Produksi Efisien",
+     "desc": "Efisiensi produksi +10%.",
+     "prerequisites": [
+      "foc.gen.civil_industry"
+     ],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "mod_add",
+       "mod": "eff",
+       "pct": 10
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.mass_production",
+     "branch": "industry",
+     "x": 7,
+     "y": 2,
+     "days": 70,
+     "icon": "crate",
+     "title": "Produksi Massal",
+     "desc": "Efisiensi produksi +10% lagi.",
+     "prerequisites": [
+      "foc.gen.production_lines",
+      "foc.gen.military_industry"
+     ],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "mod_add",
+       "mod": "eff",
+       "pct": 10
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.road_network",
+     "branch": "infrastructure",
+     "x": 9,
+     "y": 0,
+     "days": 55,
+     "icon": "road",
+     "title": "Jaringan Jalan",
+     "desc": "Infrastruktur +1 di ibu kota dan tiga provinsi terpadat.",
+     "prerequisites": [],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "add_infra_capital",
+       "count": 4
+      }
+     ],
+     "ai_weight": 11,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.construction_codes",
+     "branch": "infrastructure",
+     "x": 9,
+     "y": 1,
+     "days": 40,
+     "icon": "crane",
+     "title": "Standar Konstruksi",
+     "desc": "Kecepatan konstruksi +15%.",
+     "prerequisites": [
+      "foc.gen.road_network"
+     ],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "mod_add",
+       "mod": "constr",
+       "pct": 15
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.regional_hubs",
+     "branch": "infrastructure",
+     "x": 10,
+     "y": 1,
+     "days": 60,
+     "icon": "road",
+     "title": "Pusat Logistik Regional",
+     "desc": "Infrastruktur +1 di tiga provinsi lagi.",
+     "prerequisites": [
+      "foc.gen.road_network"
+     ],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "add_infra_capital",
+       "count": 3
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.regional_diplomacy",
+     "branch": "diplomacy",
+     "x": 12,
+     "y": 0,
+     "days": 35,
+     "icon": "handshake",
+     "title": "Diplomasi Regional",
+     "desc": "Opini negara tetangga +15.",
+     "prerequisites": [],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "add_opinion_neighbors",
+       "value": 15
+      }
+     ],
+     "ai_weight": 8,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.trade_partners",
+     "branch": "diplomacy",
+     "x": 12,
+     "y": 1,
+     "days": 45,
+     "icon": "handshake",
+     "title": "Mitra Dagang",
+     "desc": "Opini tetangga +10 dan kas bertambah.",
+     "prerequisites": [
+      "foc.gen.regional_diplomacy"
+     ],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "add_opinion_neighbors",
+       "value": 10
+      },
+      {
+       "type": "add_treasury",
+       "pct_gdp": 0.5
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.neutrality_doctrine",
+     "branch": "diplomacy",
+     "x": 11,
+     "y": 2,
+     "days": 40,
+     "icon": "dove",
+     "title": "Doktrin Netralitas",
+     "desc": "Stabilitas +3, tetapi menutup jalur aliansi militer.",
+     "prerequisites": [
+      "foc.gen.regional_diplomacy"
+     ],
+     "any_of": [],
+     "exclusive": [
+      "foc.gen.alliance_doctrine"
+     ],
+     "available": [],
+     "effects": [
+      {
+       "type": "add_stability",
+       "value": 3
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.alliance_doctrine",
+     "branch": "diplomacy",
+     "x": 13,
+     "y": 2,
+     "days": 40,
+     "icon": "shield",
+     "title": "Doktrin Aliansi",
+     "desc": "Opini tetangga +20; pertahanan lebih kokoh.",
+     "prerequisites": [
+      "foc.gen.regional_diplomacy"
+     ],
+     "any_of": [],
+     "exclusive": [
+      "foc.gen.neutrality_doctrine"
+     ],
+     "available": [],
+     "effects": [
+      {
+       "type": "add_opinion_neighbors",
+       "value": 20
+      },
+      {
+       "type": "mod_add",
+       "mod": "def",
+       "pct": 3
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.conscription_drive",
+     "branch": "military",
+     "x": 15,
+     "y": 0,
+     "days": 40,
+     "icon": "soldier",
+     "title": "Kampanye Wajib Militer",
+     "desc": "Pool manpower +10%.",
+     "prerequisites": [],
+     "any_of": [],
+     "exclusive": [],
+     "available": [
+      {
+       "type": "min_stability",
+       "value": 35
+      }
+     ],
+     "effects": [
+      {
+       "type": "add_manpower_pct",
+       "value": 10
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.equipment_stockpile",
+     "branch": "military",
+     "x": 15,
+     "y": 1,
+     "days": 50,
+     "icon": "crate",
+     "title": "Penimbunan Peralatan",
+     "desc": "Tambahan 3.000 senapan dan 60 artileri dari gudang cadangan.",
+     "prerequisites": [
+      "foc.gen.conscription_drive"
+     ],
+     "any_of": [],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "add_stock",
+       "equip": "rifles",
+       "amount": 3000
+      },
+      {
+       "type": "add_stock",
+       "equip": "artillery",
+       "amount": 60
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.infantry_doctrine",
+     "branch": "military",
+     "x": 14,
+     "y": 2,
+     "days": 50,
+     "icon": "target",
+     "title": "Doktrin Infanteri Bertahan",
+     "desc": "Pertahanan divisi +10%.",
+     "prerequisites": [
+      "foc.gen.equipment_stockpile"
+     ],
+     "any_of": [],
+     "exclusive": [
+      "foc.gen.armored_doctrine"
+     ],
+     "available": [],
+     "effects": [
+      {
+       "type": "mod_add",
+       "mod": "def",
+       "pct": 10
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.armored_doctrine",
+     "branch": "military",
+     "x": 16,
+     "y": 2,
+     "days": 50,
+     "icon": "tank",
+     "title": "Doktrin Lapis Baja",
+     "desc": "Serangan divisi +10%.",
+     "prerequisites": [
+      "foc.gen.equipment_stockpile"
+     ],
+     "any_of": [],
+     "exclusive": [
+      "foc.gen.infantry_doctrine"
+     ],
+     "available": [],
+     "effects": [
+      {
+       "type": "mod_add",
+       "mod": "atk",
+       "pct": 10
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.war_readiness",
+     "branch": "military",
+     "x": 15,
+     "y": 3,
+     "days": 45,
+     "icon": "shield",
+     "title": "Kesiapan Perang",
+     "desc": "Serangan dan pertahanan +5%, kelelahan perang −5.",
+     "prerequisites": [],
+     "any_of": [
+      [
+       "foc.gen.infantry_doctrine",
+       "foc.gen.armored_doctrine"
+      ]
+     ],
+     "exclusive": [],
+     "available": [],
+     "effects": [
+      {
+       "type": "mod_add",
+       "mod": "atk",
+       "pct": 5
+      },
+      {
+       "type": "mod_add",
+       "mod": "def",
+       "pct": 5
+      },
+      {
+       "type": "add_exhaustion",
+       "value": -5
+      }
+     ],
+     "ai_weight": 10,
+     "classification": "generic"
+    },
+    {
+     "id": "foc.gen.total_mobilization",
+     "branch": "military",
+     "x": 15,
+     "y": 4,
+     "days": 60,
+     "icon": "soldier",
+     "title": "Mobilisasi Total",
+     "desc": "Hanya saat perang: manpower +20%, efisiensi +10%, stabilitas −5.",
+     "prerequisites": [
+      "foc.gen.war_readiness"
+     ],
+     "any_of": [],
+     "exclusive": [],
+     "available": [
+      {
+       "type": "at_war"
+      }
+     ],
+     "effects": [
+      {
+       "type": "add_manpower_pct",
+       "value": 20
+      },
+      {
+       "type": "mod_add",
+       "mod": "eff",
+       "pct": 10
+      },
+      {
+       "type": "add_stability",
+       "value": -5
+      }
+     ],
+     "ai_weight": 20,
+     "classification": "generic"
+    }
+   ]
+  }
+ ]
+}

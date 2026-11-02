@@ -31,8 +31,12 @@
 
     install(state) {
       game.state = state; game.acc = 0;
-      UI.reset(); MV.recolorAll(); UI.setTab("country"); UI.refresh(true);
+      if (WO.DB.ready) state.dbVersion = WO.DB.manifest.db_version;
+      UI.reset(); MV.recolorAll(); UI.setTab("country", true); UI.refresh(true);
       $("tab-mission").hidden = !(state.flags && state.flags.scenario !== undefined);
+      if (state.player && WO.DB.ready) WO.DB.loadLeaders(state.player).then(() => UI.updateTop());
+      const q = state.player && state.countries[state.player].eventQueue[0];
+      if (q) setTimeout(() => UI.showNewspaper(q.id), 30);
     },
     newGame(seed) {
       game.pause();
@@ -41,7 +45,7 @@
     },
     onPlayerChanged() {
       const st = game.state;
-      if (st.player) UI.viewCountrySet(st.player);
+      if (st.player) { UI.viewCountrySet(st.player); if (WO.DB.ready) WO.DB.loadLeaders(st.player).then(() => UI.updateTop()); }
       UI.refresh(true);
     },
 
@@ -72,26 +76,30 @@
   });
 
   function welcome() {
-    UI.modal("<h2>World Order v0.4</h2><p>Grand strategy sandbox: provinsi nyata, kepemilikan vs penguasa, ibu kota, divisi, peperangan, kapitulasi, dan damai.</p>" +
+    UI.modal("<h2>World Order v0.5α</h2><p>Grand strategy sandbox: provinsi nyata, kepemilikan vs penguasa, ibu kota, divisi, perang, kapitulasi, fokus nasional, event, dan database sejarah (checkpoint 1: Indonesia).</p>" +
       "<p>Klik negara di peta lalu <b>Pimpin negara ini</b>, atau coba skenario latihan.</p>",
       [{ label: "Skenario latihan: Indonesia vs Timor-Leste", cls: "primary", fn: () => game.startScenario() }, { label: "Main bebas" }]);
   }
   function help() {
-    UI.modal("<h2>Kontrol</h2><p><b>Peta:</b> drag = geser, scroll = zoom, klik = pilih. Provinsi tampil saat di-zoom.<br><b>Waktu:</b> Spasi = pause, tombol 1×–10×.<br><b>Militer:</b> klik penanda unit atau pilih di tab Militer; klik kanan provinsi tujuan = gerak/serang; Esc = batal.<br><b>Penting:</b> pendudukan mengubah <i>penguasa</i>, bukan <i>pemilik</i>; pemilik hanya berubah lewat perjanjian damai.</p>" +
+    UI.modal("<h2>Kontrol</h2><p><b>Peta:</b> drag = geser, scroll = zoom, klik = pilih. Provinsi tampil saat di-zoom.<br><b>Panel:</b> ikon di kolom kiri atau tombol cepat (K politik, F fokus, C bangun, P produksi, L logistik, M pasukan, W perang, D diplomasi, T dagang, E ekonomi, B database); Esc = tutup.<br><b>Waktu:</b> Spasi = pause, 5 tingkat kecepatan (1–20 hari/detik).<br><b>Militer:</b> klik penanda unit atau pilih di tab Militer; klik kanan provinsi tujuan = gerak/serang; Esc = batal.<br><b>Penting:</b> pendudukan mengubah <i>penguasa</i>, bukan <i>pemilik</i>; pemilik hanya berubah lewat perjanjian damai.</p>" +
       '<p class="note">Data: Natural Earth (domain publik). Statistik ekonomi, terrain, populasi provinsi, dan sumber daya bersifat perkiraan/sintetis.</p>');
   }
 
   async function boot() {
+    if (game._booted) return; game._booted = true;      // idempoten: jangan pasang listener dua kali
     const status = $("loading-text");
     try {
       const get = (u) => fetch(u).then((r) => { if (!r.ok) throw new Error(u + " → HTTP " + r.status); return r.json(); });
       status.textContent = "Mengunduh data dunia…";
       const [prov, wd, borders, countries] = await Promise.all([get("data/provinces.geojson"), get("data/world-data.json"), get("data/borders.geojson"), get("data/countries.geojson")]);
+      status.textContent = "Memuat database sejarah…";
+      await WO.DB.init(); await Promise.all([WO.DB.loadCountries(), WO.DB.loadEquipment(), WO.DB.loadEvents(), WO.DB.loadTrees()]);
       status.textContent = "Menyiapkan " + prov.features.length + " provinsi…";
       await new Promise((r) => setTimeout(r, 20));
       W.init(prov, wd);
       game.javaProvince = Object.values(W.provinces).find((p) => p.name === "Jawa Barat" && p.country === "IDN").id;
       game.state = WO.State.newGame({ seed: 20260101 });
+      game.state.dbVersion = WO.DB.manifest.db_version;
       MV.init($("map"), UI.mapHooks());
       MV.build(prov, borders, countries);
       UI.init(game);

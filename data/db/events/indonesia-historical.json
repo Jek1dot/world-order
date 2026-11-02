@@ -1,0 +1,238 @@
+{
+ "shard": "indonesia-historical",
+ "events": [
+  {
+   "id": "ev.idn.1998.suharto_resigns",
+   "title": "Suharto mengundurkan diri",
+   "classification": "historical",
+   "category": "politics",
+   "date": {
+    "date": "1998-05-21",
+    "precision": "day"
+   },
+   "countries": [
+    "IDN"
+   ],
+   "factual_summary": "Suharto mengundurkan diri sebagai presiden pada 21 Mei 1998 setelah keruntuhan ekonomi akibat krisis finansial 1997 dan kerusuhan 1998; B. J. Habibie menggantikannya.",
+   "headline": "SUHARTO MUNDUR; HABIBIE DILANTIK",
+   "body": "Setelah tiga dekade berkuasa, presiden mengundurkan diri di tengah krisis ekonomi dan kerusuhan.",
+   "trigger": {
+    "fire_on_date": "1998-05-21",
+    "once_per_country": true,
+    "scope": "player"
+   },
+   "options": [
+    {
+     "id": "habibie",
+     "label": "Serahkan kekuasaan kepada wakil presiden (historis)",
+     "effects": [
+      {
+       "type": "add_stability",
+       "value": -5
+      },
+      {
+       "type": "set_flag",
+       "flag": "idn_1998_transition"
+      }
+     ],
+     "ai_weight": 10,
+     "outcome": "historical"
+    }
+   ],
+   "historical_outcome": "habibie",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Fakta dari tabel/ulasan masa jabatan; opsi pemain adalah rancangan gameplay"
+   }
+  },
+  {
+   "id": "ev.idn.2001.wahid_removed",
+   "title": "Abdurrahman Wahid dimakzulkan",
+   "classification": "historical",
+   "category": "politics",
+   "date": {
+    "date": "2001-07-23",
+    "precision": "day"
+   },
+   "countries": [
+    "IDN"
+   ],
+   "factual_summary": "Abdurrahman Wahid dimakzulkan dan diberhentikan oleh parlemen (MPR); Wakil Presiden Megawati Sukarnoputri menggantikannya pada 23 Juli 2001.",
+   "headline": "MPR BERHENTIKAN PRESIDEN; MEGAWATI NAIK",
+   "body": "Parlemen memakzulkan presiden dan wakilnya mengambil alih jabatan.",
+   "trigger": {
+    "fire_on_date": "2001-07-23",
+    "once_per_country": true,
+    "scope": "player"
+   },
+   "options": [
+    {
+     "id": "accept",
+     "label": "Terima keputusan parlemen (historis)",
+     "effects": [
+      {
+       "type": "add_stability",
+       "value": -3
+      }
+     ],
+     "ai_weight": 10,
+     "outcome": "historical"
+    }
+   ],
+   "historical_outcome": "accept",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Fakta dari tabel/ulasan masa jabatan; opsi pemain adalah rancangan gameplay"
+   }
+  },
+  {
+   "id": "ev.idn.2002.bali_bombing",
+   "title": "Pengeboman Bali",
+   "classification": "historical",
+   "category": "politics",
+   "date": {
+    "date": "2002-01-01",
+    "precision": "year"
+   },
+   "countries": [
+    "IDN"
+   ],
+   "factual_summary": "Sebuah pengeboman besar menyerang Bali pada 2002, dilakukan oleh Jemaah Islamiyah (tanggal pasti tidak ada di sumber yang dibaca).",
+   "headline": "BOM GUNCANG BALI",
+   "body": "Serangan teror besar menimbulkan korban dan kepanikan.",
+   "trigger": {
+    "fire_on_date": "2002-01-01",
+    "once_per_country": true,
+    "scope": "player"
+   },
+   "options": [
+    {
+     "id": "crackdown",
+     "label": "Perkuat kontra-terorisme (historis: pasukan khusus Detasemen 88 dibentuk)",
+     "effects": [
+      {
+       "type": "add_treasury",
+       "pct_gdp": -0.3
+      },
+      {
+       "type": "add_stability",
+       "value": 2
+      }
+     ],
+     "ai_weight": 10,
+     "outcome": "historical"
+    }
+   ],
+   "historical_outcome": "crackdown",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Fakta dari tabel/ulasan masa jabatan; opsi pemain adalah rancangan gameplay"
+   }
+  },
+  {
+   "id": "ev.idn.2004.direct_election",
+   "title": "Pemilihan presiden langsung pertama",
+   "classification": "historical",
+   "category": "politics",
+   "date": {
+    "date": "2004-01-01",
+    "precision": "year"
+   },
+   "countries": [
+    "IDN"
+   ],
+   "factual_summary": "Sejak 2004 presiden dan wakil presiden dipilih langsung untuk masa jabatan lima tahun; Susilo Bambang Yudhoyono menjadi presiden terpilih langsung pertama (dilantik 20 Oktober 2004).",
+   "headline": "RAKYAT PILIH PRESIDEN SECARA LANGSUNG",
+   "body": "Untuk pertama kalinya pemilih menentukan presiden secara langsung.",
+   "trigger": {
+    "fire_on_date": "2004-01-01",
+    "once_per_country": true,
+    "scope": "player"
+   },
+   "options": [
+    {
+     "id": "direct",
+     "label": "Selenggarakan pemilihan langsung (historis)",
+     "effects": [
+      {
+       "type": "add_stability",
+       "value": 4
+      }
+     ],
+     "ai_weight": 10,
+     "outcome": "historical"
+    }
+   ],
+   "historical_outcome": "direct",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Fakta dari tabel/ulasan masa jabatan; opsi pemain adalah rancangan gameplay"
+   }
+  },
+  {
+   "id": "ev.idn.2024.prabowo_inaugurated",
+   "title": "Pelantikan Prabowo Subianto",
+   "classification": "historical",
+   "category": "politics",
+   "date": {
+    "date": "2024-10-20",
+    "precision": "day"
+   },
+   "countries": [
+    "IDN"
+   ],
+   "factual_summary": "Prabowo Subianto dilantik sebagai presiden pada 20 Oktober 2024 bersama Wakil Presiden Gibran Rakabuming Raka.",
+   "headline": "PRABOWO DILANTIK SEBAGAI PRESIDEN",
+   "body": "Pelantikan presiden baru menandai pergantian kepemimpinan.",
+   "trigger": {
+    "fire_on_date": "2024-10-20",
+    "once_per_country": true,
+    "scope": "player"
+   },
+   "options": [
+    {
+     "id": "inaugurate",
+     "label": "Lantik presiden terpilih (historis)",
+     "effects": [
+      {
+       "type": "add_stability",
+       "value": 1
+      }
+     ],
+     "ai_weight": 10,
+     "outcome": "historical"
+    }
+   ],
+   "historical_outcome": "inaugurate",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Fakta dari tabel/ulasan masa jabatan; opsi pemain adalah rancangan gameplay"
+   }
+  }
+ ]
+}

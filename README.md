@@ -1,103 +1,66 @@
-# World Order v0.4 — Grand Strategy Sandbox
+# World Order v0.5.0-alpha.1 — Checkpoint 1
 
-Game strategi berbasis browser (HTML, CSS, JavaScript vanilla, SVG) yang terinspirasi Hearts of Iron IV, Europa Universalis, dan Victoria. Dunia nyata dengan **4.578 provinsi**, kepemilikan wilayah, ibu kota, divisi, peperangan, kapitulasi negara, dan perjanjian damai. Tanpa backend, tanpa API key, tanpa proses build.
+Grand strategy sandbox berbasis browser (HTML, CSS, JavaScript vanilla, SVG), terinspirasi Hearts of Iron IV. Dunia nyata dengan 4.578 provinsi, kepemilikan vs penguasa, ibu kota, divisi, perang, kapitulasi, damai, **Fokus Nasional, event bergaya surat kabar, dan database sejarah 1991–2026 (pilot Indonesia)**. Tanpa backend, tanpa API key, tanpa proses build.
 
-## Menjalankan (localhost)
+> **Checkpoint 1** dari proyek besar (database global 1991–2026 + UI bergaya HOI4). Yang selesai dan yang belum dijelaskan jujur di bawah. Cakupan data: `docs/COVERAGE.md`.
 
-Butuh server statis apa saja (file GeoJSON tidak bisa dimuat dari `file://`).
-
+## Menjalankan
 ```
 cd world-order
 python -m http.server 8000        # atau: npx serve .
 ```
+Buka **http://localhost:8000** (server statis wajib; `file://` tidak bisa memuat data). GitHub Pages: unggah isi folder apa adanya. Tidak butuh internet saat bermain.
 
-Buka **http://localhost:8000**. Untuk GitHub Pages: unggah isi folder apa adanya (semua path relatif). Tidak perlu internet saat bermain; peta negara dan provinsi sudah ada di folder `data/`.
+## Layar & kontrol (familier bagi pemain HOI4)
+- **Kolom ikon kiri** membuka jendela panel di atas peta: Politik (K), Fokus (F), Bangun (C), Produksi (P), Logistik (L), Pasukan (M), Perang (W), Diplomasi (D), Dagang (T), Ekonomi (E), Provinsi (V), Log (G), **Data (B)**. Esc menutup. Ikon redup = belum ada (Keputusan, Riset, Komando Tinggi, Intelijen).
+- **Bar atas**: negara + kepala negara (dari database), kas, manpower, stabilitas, pabrik, divisi, 5 sumber daya, notifikasi yang dihitung dari state.
+- **HUD bawah**: mode peta (Politik, Kepemilikan, Kontrol, Infra, Sumber daya, Supply) dan tanggal + pause + 5 kecepatan (1–20 hari/detik). Spasi = pause (tidak ada simulasi saat pause).
+- **Peta**: drag, scroll-zoom, klik; provinsi tampil saat di-zoom. Klik kanan provinsi = perintah gerak/serang untuk divisi terpilih.
 
-## Cara bermain
-
-1. **Pilih negara**: klik negara di peta → tab *Negara* → **Pimpin negara ini**. Atau pakai **Skenario latihan** (Indonesia vs Timor-Leste), lihat tab *Misi*.
-2. **Waktu**: Spasi / ▶ = jalan/pause; tombol 1×, 2×, 5×, 10× = hari game per detik. Saat pause *tidak ada* simulasi yang berjalan.
-3. **Industri**: tab *Provinsi* → bangun pabrik sipil/militer/infrastruktur di provinsi milikmu. Tab *Produksi* → alokasikan pabrik militer ke senapan, artileri, atau tank (butuh baja, aluminium, minyak).
-4. **Tentara**: rekrut divisi (butuh manpower + peralatan + kas, latihan 10 hari). Klik penanda unit di peta atau centang di tab *Militer*. **Klik kanan** provinsi tujuan = gerak/serang (atau "Mode perintah" lalu klik kiri). Esc = batal.
-5. **Perang**: klik negara lain → tab *Diplomasi* → Nyatakan perang. Serang provinsi musuh yang bertetangga. Pertempuran berlangsung per hari; pemenang *menduduki* provinsi (penguasa berubah, pemilik tetap).
-6. **Kapitulasi & damai**: tekan musuh (ibu kota, wilayah, sisa pasukan, kelelahan perang). Setelah kapitulasi buka tab *Perang*: damai putih, ambil provinsi yang diduduki, aneksasi penuh, reparasi.
-7. **Simpan/Muat**: tombol di atas (localStorage).
-
-Mode peta: **Politik** (pemilik), **Kepemilikan**, **Kontrol militer** (penguasa), **Infrastruktur**, **Sumber daya**, **Supply**. Wilayah yang diduduki selalu ditandai **garis diagonal** warna penguasa.
-
-## Apa yang benar-benar berfungsi
-
-Rantai terintegrasi dalam satu state: **produksi → stok peralatan → rekrutmen → gerak (graf provinsi) → perang → pertempuran → pendudukan (controller) → tekanan kapitulasi → damai (owner) → save/load**.
-
+## Yang ada (v0.5α)
 | Sistem | Status |
 |---|---|
-| Owner vs controller per provinsi, 6 mode peta, pola wilayah pendudukan | Selesai |
-| Graf tetangga darat dari sisi batas bersama (41/41 perbatasan uji terdeteksi), jalur laut domestik | Selesai |
-| Pathfinding A* (jarak, terrain, infrastruktur, akses militer, wilayah musuh) | Selesai |
-| Ibu kota (data Natural Earth), pindah ibu kota (biaya, cooldown, syarat), deteksi pendudukan, riwayat | Selesai |
-| Divisi: rekrut, latihan, gerak berbasis waktu, penanda unit, jalur, panah serangan | Selesai |
-| Perang berpasangan, aliansi otomatis ikut, pertempuran per hari, retreat, korban, XP | Selesai (sederhana) |
-| Kapitulasi multi-faktor (tidak instan), skor perang, damai putih/transfer/aneksasi/reparasi | Selesai |
-| Ekonomi: PDB dinamis, kas, manpower, stabilitas, kelelahan perang | Selesai (sintetis) |
-| Konstruksi (antrean, kapasitas dari pabrik sipil), produksi 3 jenis peralatan | Selesai |
-| 5 sumber daya yang benar-benar dipakai (produksi, pabrik, tentara) | Selesai (sintetis) |
-| Supply (jaringan dari ibu kota/pusat regional, putus oleh pendudukan) + efeknya | Selesai |
-| Diplomasi: opini, perang, damai, NAP, aliansi, akses militer, dagang, riwayat | Selesai (sederhana) |
-| AI: ekonomi, produksi, rekrut, bertahan, menyerang, pindah ibu kota, minta damai | Selesai (sederhana) |
-| Save/load berversi, validasi, penolakan save lama tanpa crash | Selesai |
+| Semua dari v0.4: owner/controller, ibu kota, divisi, perang, kapitulasi, damai, ekonomi, produksi, supply, diplomasi, AI, save | Selesai (lihat CHANGELOG) |
+| **Database sejarah modular** (`data/db/`), skema JSON, validator semantik, manifest, lazy loading, cakupan otomatis | Selesai |
+| **Pilot data**: presiden & wakil presiden Indonesia 1988–2026 (17 masa jabatan, 14 tokoh, vacancy), keluarga senapan FN FNC → Pindad SS1 → SS2 (10 varian), 5 event historis Indonesia | Selesai, status `partially_verified` |
+| Kerangka 250 negara (nama pendek + ibu kota kini dari Natural Earth) | Selesai (sisanya `null` + alasan) |
+| **Fokus Nasional**: mesin (prasyarat, any_of, eksklusif, syarat, durasi, efek nyata) + UI pohon (konektor, zoom/geser, cari, sorot dependensi) + AI; 24 fokus generik | Selesai (konten fiktif orisinal) |
+| **Event**: mesin (tanggal & MTTH, kondisi, opsi, efek) + koran + auto-pause; 6 event generik + 5 historis | Selesai |
+| **Politik**: pemimpin sesuai tanggal permainan + status/keyakinan/sumber; **Data**: penjelajah dengan slider tanggal 1991–2026 | Selesai (hanya Indonesia) |
+| Logistik & Dagang (panel nyata), notifikasi dinamis | Selesai |
+| Save skema 5 + migrasi otomatis dari skema 4 | Selesai |
 
-## Belum ada / prototipe (jujur)
+## Belum ada (jujur)
+- **Campaign 1991 / 2001**: belum tersedia. Butuh lapisan batas wilayah historis (USSR, Yugoslavia, Cekoslowakia, Timor Timur sebagai bagian Indonesia, dst.); batas peta masih kondisi kini, jadi tanggal permainan tetap 1 Januari 2026. Event historis 1998–2024 tidak menyala di campaign 2026 (sudah lampau).
+- **Cakupan data**: hanya Indonesia yang punya pemimpin; hanya senjata api infanteri untuk alutsista (1 dari 21 kategori); 0 inventaris terverifikasi; **0 record berstatus `verified`** (semua `partially_verified`, sumber tersier). 239 negara hanya kerangka. Tidak ada menteri, panglima, jenderal, partai berkuasa selain nama partai presiden Indonesia.
+- **Mekanik HOI4** yang belum: riset, keputusan, desainer divisi, grup tentara/garis depan/rencana tempur, jenderal, udara, laut, invasi laut, intelijen (matriks lengkap: `docs/AUDIT.md`).
+- Pohon fokus unik per negara, produksi per model/varian, ikon bendera orisinal, minimap, dukungan sentuh/mobile (belum diuji).
+- Pengujian UI hanya di jsdom (DOM tiruan); belum di browser sungguhan.
 
-- **Pendaratan amfibi, angkatan laut, udara**: tidak ada. Penyeberangan laut hanya antar wilayah milik/sekutu/akses sendiri (pengangkutan domestik).
-- **Fortifikasi**, template divisi kustom, jenderal, riset, intelijen, negara boneka: tidak ada.
-- **Provinsi = wilayah administratif Natural Earth** (4.578), bukan petak kecil seragam ala HOI4 dan tidak ada provinsi laut. Indonesia masih 33 provinsi.
-- **Data sintetis**: terrain, populasi/PDB per provinsi, sumber daya, infrastruktur awal, jumlah divisi awal. Statistik negara (populasi, PDB) = perkiraan kasar; 78 negara kecil memakai estimasi sintetis. Semuanya diberi label di UI.
-- 56 ibu kota negara kecil/dependensi memakai perkiraan (ditandai "perkiraan").
-- Kerugian peralatan tidak dimodelkan terpisah: korban mengurangi *strength*, dan pemulihan menguras manpower + peralatan dari stok.
-- Peta belum mendukung pinch-zoom sentuh (scroll mouse/tombol saja).
-- Pengujian UI hanya di jsdom (DOM tiruan), belum di browser sungguhan. Lihat `docs/TESTING.md`.
-
-## Struktur proyek
-
+## Struktur
 ```
-index.html, style.css
-js/        core, world, diplomacy, pathfinding, supply, state, economy, military, country, war, ai, sim, save   (simulasi, tanpa DOM)
-           map (render SVG), ui + panels (antarmuka), main (boot & loop)
-data/      provinces.geojson, borders.geojson, countries.geojson (geometri)  •  world-data.json (graf, ibu kota, statistik)
-tools/     build_data.sh, build_world_data.py, postprocess_geo.py   (membangun ulang data/)
-tests/     scenario, rules, long_sim, test_ui, profile
-docs/      SYSTEMS.md (rumus & balancing), TESTING.md (hasil uji)
+index.html, style.css            antarmuka & design system (docs/DESIGN_SYSTEM.md)
+js/    core world db effects diplomacy pathfinding supply state economy military country focus events war ai sim save   simulasi (tanpa DOM)
+       map ui panels panels2 icons main                                                                            tampilan
+data/  provinces/borders/countries.geojson, world-data.json (geometri & graf)  •  db/ (database sejarah, docs/DATA_FORMAT.md)
+schemas/world-order-db.schema.json    scripts/{import,validate,build}    tools/ (data peta)    tests/    docs/
 ```
 
-Arsitektur: simulasi (`js/*` kecuali map/ui/panels/main) tidak menyentuh DOM dan hanya memakai **province ID**. `map.js` hanya membaca state (lewat `hooks.getState()`), sehingga renderer bisa diganti Canvas/WebGL tanpa menulis ulang gameplay. Geometri tidak masuk save; provinsi disimpan sebagai selisih dari kondisi awal.
-
-## Tes
-
+## Perintah
 ```
-npm install          # jsdom (dan mapshaper bila ingin membangun ulang data)
-npm test             # 150 pengecekan: skenario, aturan, UI
-npm run sim          # simulasi dunia 365 hari, semua AI, cek invarian + waktu
+npm install
+npm test            # validator DB + 292 pengecekan (DB, skenario, aturan, UI)
+npm run db:validate # validasi database
+npm run db:build    # bangun ulang data/db + manifest + docs/COVERAGE.md
+npm run sim         # simulasi dunia 365 hari agresif;  npm run sim:peace  = 730 hari damai
 ```
 
-## Update repository GitHub
-
+## Update GitHub
 ```
-git rm -f script.js                 # file v0.3 sudah digantikan folder js/
-git add -A
-git commit -m "v0.4: kepemilikan/penguasa, ibu kota, divisi, perang, kapitulasi, ekonomi, AI"
-git push
+git rm -f script.js            # file v0.3 lama (jika masih ada)
+git add -A && git commit -m "v0.5.0-alpha.1: database sejarah, fokus nasional, event, UI bergaya command center" && git push
 ```
-Ekstrak ZIP ke folder repo (timpa), lalu jalankan perintah di atas. Folder `node_modules/` tidak ikut karena ada di `.gitignore`.
+Repositori GitHub saat ini (dicek 2026-10-30) masih snapshot lama (2 commit); v0.4+ belum di-push.
 
-## Sumber data & lisensi
-
-Natural Earth (domain publik): batas provinsi 10m Admin-1 dan Populated Places (ibu kota). Disederhanakan dengan mapshaper. Statistik negara adalah perkiraan; jangan dipakai sebagai data resmi.
-
-## Roadmap v0.5
-
-1. Pecah provinsi besar menjadi petak seragam (Voronoi) lalu pindah renderer ke Canvas/WebGL (>10 ribu wilayah).
-2. Provinsi laut + angkatan laut + pendaratan amfibi.
-3. Template divisi, jenderal, fortifikasi, front line otomatis.
-4. Perdagangan sumber daya yang sebenarnya, negara boneka, faksi.
-5. Data nyata (terrain, sumber daya) menggantikan data sintetis.
-6. Uji di browser sungguhan (Playwright), pinch-zoom, antarmuka sentuh.
+## Sumber & lisensi
+Natural Earth (domain publik): batas, ibu kota. Fakta masa jabatan dan senjata api dari halaman Wikipedia/wiki komunitas yang dibaca (hanya fakta; CC BY-SA, URL & tanggal akses di `data/db/sources/sources.json`). Wiki HOI4 (CC BY-SA 3.0) hanya sebagai rujukan konsep; tidak ada aset Paradox yang dipakai. Statistik ekonomi permainan, terrain, sumber daya, dan konten fokus/event generik **sintetis/fiksi** dan berlabel.

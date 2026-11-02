@@ -1,0 +1,1336 @@
+{
+  "$id": "wo-db",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "World Order historical database (v1)",
+  "$defs": {
+    "Status": {
+      "enum": [
+        "verified",
+        "partially_verified",
+        "disputed",
+        "unknown",
+        "fictional_gameplay"
+      ]
+    },
+    "Confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "IsoDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "Precision": {
+      "enum": [
+        "day",
+        "month",
+        "year"
+      ]
+    },
+    "SourceRef": {
+      "type": "string",
+      "pattern": "^S-[A-Z0-9-]+$"
+    },
+    "Verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "confidence"
+      ],
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/Status"
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          }
+        },
+        "checked": {
+          "$ref": "#/$defs/IsoDate"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "reason_unknown": {
+          "type": "string"
+        }
+      }
+    },
+    "DatePoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "date",
+        "precision"
+      ],
+      "properties": {
+        "date": {
+          "$ref": "#/$defs/IsoDate"
+        },
+        "precision": {
+          "$ref": "#/$defs/Precision"
+        },
+        "inferred": {
+          "type": "boolean"
+        }
+      }
+    },
+    "NullableYear": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1800,
+      "maximum": 2100
+    },
+    "Source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "publisher",
+        "url",
+        "accessed",
+        "license",
+        "type",
+        "reliability"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https?://"
+        },
+        "accessed": {
+          "$ref": "#/$defs/IsoDate"
+        },
+        "license": {
+          "type": "string",
+          "minLength": 2
+        },
+        "type": {
+          "enum": [
+            "primary",
+            "secondary",
+            "tertiary",
+            "dataset"
+          ]
+        },
+        "reliability": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "Capital": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "city",
+        "from",
+        "approximate",
+        "verification"
+      ],
+      "properties": {
+        "city": {
+          "type": "string"
+        },
+        "province_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lonlat": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "from": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "to": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "approximate": {
+          "type": "boolean"
+        },
+        "note": {
+          "type": "string"
+        },
+        "verification": {
+          "$ref": "#/$defs/Verification"
+        }
+      }
+    },
+    "Country": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "names",
+        "existence",
+        "capitals",
+        "verification",
+        "unknown_fields"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9_]{1,9}$"
+        },
+        "kind": {
+          "enum": [
+            "sovereign_state",
+            "dependency",
+            "disputed_entity",
+            "historical_entity",
+            "unclassified"
+          ]
+        },
+        "iso3": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[A-Z]{3}$"
+        },
+        "iso2": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[A-Z]{2}$"
+        },
+        "region": {
+          "type": "string"
+        },
+        "un_member": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "names": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "short"
+          ],
+          "properties": {
+            "official": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "short": {
+              "type": "string"
+            },
+            "historical": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "from": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "to": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "existence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "from",
+            "to"
+          ],
+          "properties": {
+            "from": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "to": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "capitals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Capital"
+          }
+        },
+        "executive": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "structure": {
+              "type": "string"
+            },
+            "head_of_state_title": {
+              "type": "string"
+            },
+            "head_of_government_title": {
+              "type": "string"
+            },
+            "selection_note": {
+              "type": "string"
+            },
+            "verification": {
+              "$ref": "#/$defs/Verification"
+            }
+          }
+        },
+        "population": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "gdp_musd": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "unknown_fields": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "verification": {
+          "$ref": "#/$defs/Verification"
+        },
+        "ne_a3": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "Person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "country",
+        "verification"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^person\\.[a-z0-9_]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "birth": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "death": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "gameplay_skill": {
+          "type": "null"
+        },
+        "unknown_fields": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "verification": {
+          "$ref": "#/$defs/Verification"
+        }
+      }
+    },
+    "Tenure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "person",
+        "country",
+        "roles",
+        "office_title",
+        "start",
+        "end",
+        "verification"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^ten\\.[A-Za-z0-9_.-]+$"
+        },
+        "person": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "head_of_state",
+              "head_of_government",
+              "deputy_head_of_state",
+              "defense_minister",
+              "foreign_minister",
+              "finance_minister",
+              "armed_forces_commander",
+              "party_leader"
+            ]
+          }
+        },
+        "office_title": {
+          "type": "string"
+        },
+        "acting": {
+          "type": "boolean"
+        },
+        "start": {
+          "$ref": "#/$defs/DatePoint"
+        },
+        "end": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/DatePoint"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ongoing_as_of": {
+          "$ref": "#/$defs/IsoDate"
+        },
+        "party": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "party_status": {
+          "$ref": "#/$defs/Status"
+        },
+        "end_reason": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "verification": {
+          "$ref": "#/$defs/Verification"
+        }
+      }
+    },
+    "Vacancy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "country",
+        "role",
+        "start",
+        "end",
+        "reason"
+      ],
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "start": {
+          "$ref": "#/$defs/IsoDate"
+        },
+        "end": {
+          "$ref": "#/$defs/IsoDate"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "verification": {
+          "$ref": "#/$defs/Verification"
+        }
+      }
+    },
+    "LeadersFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "country",
+        "persons",
+        "tenures",
+        "vacancies"
+      ],
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "persons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Person"
+          }
+        },
+        "tenures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Tenure"
+          }
+        },
+        "vacancies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Vacancy"
+          }
+        },
+        "scope": {
+          "type": "string"
+        }
+      }
+    },
+    "Manufacturer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "country",
+        "verification"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^mfr\\.[a-z0-9_]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "verification": {
+          "$ref": "#/$defs/Verification"
+        }
+      }
+    },
+    "Variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "status",
+        "service_entry_year",
+        "service_entry_basis",
+        "verification"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^eq\\.[a-z0-9_.]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "operational",
+            "prototype",
+            "cancelled",
+            "demonstrator",
+            "retired"
+          ]
+        },
+        "service_entry_year": {
+          "$ref": "#/$defs/NullableYear"
+        },
+        "retired_year": {
+          "$ref": "#/$defs/NullableYear"
+        },
+        "service_entry_basis": {
+          "enum": [
+            "variant_specific",
+            "unknown"
+          ]
+        },
+        "role": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "specs": {
+          "type": "object"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "verification": {
+          "$ref": "#/$defs/Verification"
+        }
+      }
+    },
+    "Operator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "country",
+        "since_year",
+        "basis",
+        "verification"
+      ],
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "since_year": {
+          "$ref": "#/$defs/NullableYear"
+        },
+        "until_year": {
+          "$ref": "#/$defs/NullableYear"
+        },
+        "basis": {
+          "enum": [
+            "in_service",
+            "received",
+            "unknown"
+          ]
+        },
+        "variants": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string"
+        },
+        "verification": {
+          "$ref": "#/$defs/Verification"
+        }
+      }
+    },
+    "Procurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "country",
+        "year",
+        "type",
+        "quantity",
+        "delivery",
+        "verification"
+      ],
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "year": {
+          "$ref": "#/$defs/NullableYear"
+        },
+        "type": {
+          "enum": [
+            "order",
+            "purchase",
+            "license",
+            "donation",
+            "transfer",
+            "offer"
+          ]
+        },
+        "quantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "delivery": {
+          "enum": [
+            "delivered",
+            "not_delivered",
+            "unknown"
+          ]
+        },
+        "variant": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "verification": {
+          "$ref": "#/$defs/Verification"
+        }
+      }
+    },
+    "EquipmentModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "category",
+        "family",
+        "design_country",
+        "manufacturers",
+        "status",
+        "variants",
+        "operators",
+        "procurement",
+        "verification"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^eq\\.[a-z0-9_.]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "infantry_weapons",
+            "artillery",
+            "anti_tank",
+            "apc",
+            "ifv",
+            "mbt",
+            "air_defense",
+            "radar_ew",
+            "fighter",
+            "attack_aircraft",
+            "bomber",
+            "transport_aircraft",
+            "helicopter",
+            "uav",
+            "frigate",
+            "destroyer",
+            "corvette",
+            "aircraft_carrier",
+            "submarine",
+            "amphibious_ship",
+            "logistics_support"
+          ]
+        },
+        "family": {
+          "type": "string"
+        },
+        "design_country": {
+          "type": "string"
+        },
+        "manufacturers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "derived_from": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "development_start_year": {
+          "$ref": "#/$defs/NullableYear"
+        },
+        "introduced_year": {
+          "$ref": "#/$defs/NullableYear"
+        },
+        "service_entry_year": {
+          "$ref": "#/$defs/NullableYear"
+        },
+        "retired_year": {
+          "$ref": "#/$defs/NullableYear"
+        },
+        "status": {
+          "enum": [
+            "operational",
+            "prototype",
+            "cancelled",
+            "demonstrator",
+            "retired"
+          ]
+        },
+        "license": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "variants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Variant"
+          }
+        },
+        "operators": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Operator"
+          }
+        },
+        "procurement": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Procurement"
+          }
+        },
+        "gameplay": {
+          "type": "object",
+          "description": "Nilai balancing buatan; terpisah dari fakta historis",
+          "properties": {
+            "status": {
+              "const": "fictional_gameplay"
+            }
+          }
+        },
+        "notes": {
+          "type": "string"
+        },
+        "verification": {
+          "$ref": "#/$defs/Verification"
+        }
+      }
+    },
+    "InventoryRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "item",
+        "country",
+        "year",
+        "count",
+        "basis",
+        "verification"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "item": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "basis": {
+          "enum": [
+            "delivered_total",
+            "in_service_count",
+            "source_estimate"
+          ]
+        },
+        "verification": {
+          "$ref": "#/$defs/Verification"
+        }
+      }
+    },
+    "Effect": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "Condition": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "GameEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "classification",
+        "countries",
+        "trigger",
+        "options",
+        "verification"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^ev\\.[a-z0-9_.]+$"
+        },
+        "title": {
+          "type": "string"
+        },
+        "classification": {
+          "enum": [
+            "historical",
+            "generic_gameplay",
+            "alternate_history"
+          ]
+        },
+        "category": {
+          "type": "string"
+        },
+        "date": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/DatePoint"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "countries": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "factual_summary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "headline": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "trigger": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "mtth_days": {
+              "type": "number",
+              "minimum": 1
+            },
+            "conditions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Condition"
+              }
+            },
+            "not_before": {
+              "$ref": "#/$defs/IsoDate"
+            },
+            "not_after": {
+              "$ref": "#/$defs/IsoDate"
+            },
+            "once_per_country": {
+              "type": "boolean"
+            },
+            "fire_on_date": {
+              "$ref": "#/$defs/IsoDate"
+            },
+            "scope": {
+              "enum": [
+                "player",
+                "all"
+              ]
+            }
+          }
+        },
+        "options": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label",
+              "effects"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "effects": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/Effect"
+                }
+              },
+              "ai_weight": {
+                "type": "number"
+              },
+              "outcome": {
+                "enum": [
+                  "historical",
+                  "alternate",
+                  "gameplay"
+                ]
+              }
+            }
+          }
+        },
+        "historical_outcome": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "verification": {
+          "$ref": "#/$defs/Verification"
+        }
+      }
+    },
+    "Focus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "branch",
+        "x",
+        "y",
+        "days",
+        "title",
+        "desc",
+        "effects"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^foc\\.[a-z0-9_.]+$"
+        },
+        "branch": {
+          "type": "string"
+        },
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        },
+        "days": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "icon": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "prerequisites": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "any_of": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "exclusive": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "available": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Condition"
+          }
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Effect"
+          }
+        },
+        "ai_weight": {
+          "type": "number"
+        },
+        "classification": {
+          "enum": [
+            "generic",
+            "historical",
+            "alternate_history"
+          ]
+        }
+      }
+    },
+    "FocusTree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "country",
+        "branches",
+        "focuses",
+        "verification"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^tree\\.[a-z0-9_.]+$"
+        },
+        "kind": {
+          "enum": [
+            "generic",
+            "unique"
+          ]
+        },
+        "country": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "branches": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "focuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Focus"
+          }
+        },
+        "verification": {
+          "$ref": "#/$defs/Verification"
+        }
+      }
+    },
+    "SourcesFile": {
+      "type": "object",
+      "required": [
+        "sources"
+      ],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Source"
+          }
+        }
+      }
+    },
+    "CountriesFile": {
+      "type": "object",
+      "required": [
+        "shard",
+        "countries"
+      ],
+      "properties": {
+        "shard": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "countries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Country"
+          }
+        }
+      }
+    },
+    "EquipmentFile": {
+      "type": "object",
+      "required": [
+        "shard",
+        "models"
+      ],
+      "properties": {
+        "shard": {
+          "type": "string"
+        },
+        "manufacturers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Manufacturer"
+          }
+        },
+        "models": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EquipmentModel"
+          }
+        }
+      }
+    },
+    "InventoriesFile": {
+      "type": "object",
+      "required": [
+        "records"
+      ],
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/InventoryRecord"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "EventsFile": {
+      "type": "object",
+      "required": [
+        "shard",
+        "events"
+      ],
+      "properties": {
+        "shard": {
+          "type": "string"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GameEvent"
+          }
+        }
+      }
+    },
+    "FocusFile": {
+      "type": "object",
+      "required": [
+        "trees"
+      ],
+      "properties": {
+        "trees": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FocusTree"
+          }
+        }
+      }
+    }
+  }
+}

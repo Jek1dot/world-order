@@ -1,0 +1,114 @@
+{
+ "sources": [
+  {
+   "id": "S-WP-PRES-IDN",
+   "title": "List of presidents of Indonesia (tabel presiden, wakil presiden, partai)",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/List_of_presidents_of_Indonesia",
+   "accessed": "2026-10-30",
+   "license": "CC BY-SA 4.0 (hanya fakta/tanggal yang diambil)",
+   "type": "tertiary",
+   "reliability": "medium",
+   "notes": "Halaman dibaca penuh; catatan kaki menyebut data 'per 29 Agustus 2026'."
+  },
+  {
+   "id": "S-WP-PINDAD-SS2",
+   "title": "Pindad SS2",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Pindad_SS2",
+   "accessed": "2026-10-30",
+   "license": "CC BY-SA 4.0 (hanya fakta)",
+   "type": "tertiary",
+   "reliability": "medium",
+   "notes": "Dibaca lewat cuplikan hasil pencarian, bukan halaman penuh."
+  },
+  {
+   "id": "S-WP-PINDAD-SS1",
+   "title": "Pindad SS1",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Pindad_SS1",
+   "accessed": "2026-10-30",
+   "license": "CC BY-SA 4.0 (hanya fakta)",
+   "type": "tertiary",
+   "reliability": "medium",
+   "notes": "Cuplikan dari en.wikipedia.com (mirror); bukan halaman penuh."
+  },
+  {
+   "id": "S-MILWIKI-SS1",
+   "title": "Pindad SS1 (Military Wiki)",
+   "publisher": "Military Wiki / Fandom",
+   "url": "https://military-history.fandom.com/wiki/Pindad_SS1",
+   "accessed": "2026-10-30",
+   "license": "CC BY-SA",
+   "type": "tertiary",
+   "reliability": "low",
+   "notes": "Wiki komunitas; dipakai hanya sebagai pendukung, bukan penentu."
+  },
+  {
+   "id": "S-IMFDB-SS2",
+   "title": "Pindad SS2 (IMFDB)",
+   "publisher": "Internet Movie Firearms Database",
+   "url": "https://www.imfdb.org/wiki/Pindad_SS2",
+   "accessed": "2026-10-30",
+   "license": "CC BY-SA",
+   "type": "tertiary",
+   "reliability": "low",
+   "notes": "Wiki komunitas."
+  },
+  {
+   "id": "S-SANDBOXX-SS2",
+   "title": "Indonesia's Pindad SS2 – Service rifles from around the world",
+   "publisher": "Sandboxx",
+   "url": "https://www.sandboxx.us/news/indonesias-pindad-ss2-service-rifles-from-around-the-world/",
+   "accessed": "2026-10-30",
+   "license": "hak cipta penerbit; hanya fakta yang dirujuk",
+   "type": "secondary",
+   "reliability": "medium",
+   "notes": "Artikel populer; dibaca lewat cuplikan."
+  },
+  {
+   "id": "S-WP-FNC",
+   "title": "FN FNC",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/FN_FNC",
+   "accessed": "2026-10-30",
+   "license": "CC BY-SA 4.0 (hanya fakta)",
+   "type": "tertiary",
+   "reliability": "medium",
+   "notes": "Cuplikan hasil pencarian."
+  },
+  {
+   "id": "S-NE-ADMIN1",
+   "title": "Natural Earth 10m Admin 1 – States, Provinces",
+   "publisher": "Natural Earth",
+   "url": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+   "accessed": "2026-10-30",
+   "license": "Domain publik",
+   "type": "dataset",
+   "reliability": "high",
+   "notes": "Nama negara/provinsi, kode adm0_a3. Batas = kondisi kini (bukan 1991)."
+  },
+  {
+   "id": "S-NE-PLACES",
+   "title": "Natural Earth 10m Populated Places (simple)",
+   "publisher": "Natural Earth",
+   "url": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-populated-places/",
+   "accessed": "2026-10-30",
+   "license": "Domain publik",
+   "type": "dataset",
+   "reliability": "high",
+   "notes": "Ibu kota kini. Beberapa dependensi tidak punya entri ibu kota."
+  },
+  {
+   "id": "S-HOI4WIKI-MAIN",
+   "title": "Hearts of Iron 4 Wiki (halaman utama)",
+   "publisher": "Paradox Wikis",
+   "url": "https://hoi4.paradoxwikis.com/Hearts_of_Iron_4_Wiki",
+   "accessed": "2026-10-30",
+   "license": "CC BY-SA 3.0",
+   "type": "tertiary",
+   "reliability": "medium",
+   "notes": "Hanya halaman indeks dibaca (daftar topik mekanik). Halaman mekanik individual belum dibaca."
+  }
+ ]
+}

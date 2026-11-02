@@ -1,0 +1,6 @@
+{
+  "_doc": "Kosakata efek & kondisi yang dikenali engine. Validator dan game memakai berkas yang sama.",
+  "effects": ["add_stability", "add_treasury", "add_manpower_pct", "add_growth_pct", "grant_factory", "add_infra_capital", "add_stock", "mod_add", "add_opinion_neighbors", "add_exhaustion", "set_flag", "damage_infra", "add_resource"],
+  "conditions": ["min_civ", "min_mil", "min_stability", "max_stability", "min_treasury", "at_war", "at_peace", "min_divisions", "has_flag", "no_flag", "has_focus", "capital_controlled", "min_gdp"],
+  "mods": ["constr", "eff", "atk", "def", "income", "manpower"]
+}

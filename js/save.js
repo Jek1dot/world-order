@@ -6,7 +6,7 @@
   const WO = root.WO, W = WO.World, C = WO.C;
   const Save = (WO.Save = {});
   const COUNTRY_FIELDS = ["exists", "treasury", "manpower", "manpowerMax", "stability", "baseStab", "exhaustion", "growth", "capital",
-    "capitalHistory", "lastRelocate", "relocCount", "stock", "res", "queue", "lines", "divSeq", "peakArmy", "capitulated", "capDays", "casualties", "ai"];
+    "capitalHistory", "lastRelocate", "relocCount", "stock", "res", "queue", "lines", "divSeq", "peakArmy", "capitulated", "capDays", "casualties", "ai", "mods", "focus", "flags", "eventQueue"];
 
   let baseline = null;
   function getBaseline() { if (!baseline) baseline = WO.State.newGame({ seed: 1 }).provinces; return baseline; }
@@ -25,13 +25,13 @@
       day: state.day, player: state.player, rng: state.rng, settings: state.settings,
       nextDivId: state.nextDivId, nextWarId: state.nextWarId, nextProjId: state.nextProjId, nextLineId: state.nextLineId,
       provinces: pd, countries: cd, divisions: state.divisions, wars: state.wars, diplo: state.diplo,
-      flags: state.flags, peaceOffers: state.peaceOffers, log: state.log.slice(-120), pendingMessages: state.pendingMessages.slice(-20),
+      flags: state.flags, events: state.events, dbVersion: state.dbVersion, peaceOffers: state.peaceOffers, log: state.log.slice(-120), pendingMessages: state.pendingMessages.slice(-20),
     };
   };
 
   Save.deserialize = function (obj) {
     if (!obj || typeof obj !== "object") return { ok: false, error: "Data save rusak." };
-    if (obj.schema !== WO.SAVE_SCHEMA) return { ok: false, error: "Save dari versi lain (skema " + obj.schema + ") tidak kompatibel dengan v" + WO.VERSION + ". Mulai permainan baru." };
+    if (WO.SAVE_COMPAT.indexOf(obj.schema) === -1) return { ok: false, error: "Save dari versi lain (skema " + obj.schema + ") tidak kompatibel dengan v" + WO.VERSION + ". Mulai permainan baru." };
     try {
       const state = WO.State.newGame({ seed: obj.rng, aiAggressive: obj.settings && obj.settings.aiAggressive });
       state.day = obj.day; state.player = obj.player; state.rng = obj.rng | 0;
@@ -43,7 +43,7 @@
       }
       for (const iso in obj.countries) { const c = state.countries[iso]; if (!c) continue; for (const f of COUNTRY_FIELDS) if (obj.countries[iso][f] !== undefined) c[f] = obj.countries[iso][f]; }
       state.divisions = obj.divisions || {}; state.wars = obj.wars || []; state.diplo = obj.diplo || { rel: {}, pacts: [], cd: {}, history: [] };
-      state.flags = obj.flags || {}; state.peaceOffers = obj.peaceOffers || []; state.log = obj.log || []; state.pendingMessages = obj.pendingMessages || [];
+      state.flags = obj.flags || {}; state.events = obj.events || { fired: {} }; state.dbVersion = obj.dbVersion || null; state.peaceOffers = obj.peaceOffers || []; state.log = obj.log || []; state.pendingMessages = obj.pendingMessages || [];
       WO.State.rebuild(state); WO.State.refreshAggregates(state);
       const problems = Save.validate(state, true);
       if (problems.length) return { ok: false, error: "Save tidak valid: " + problems.slice(0, 3).join("; ") };
@@ -68,6 +68,7 @@
     for (const iso of W.countryIds) {
       const c = state.countries[iso];
       if (!c.exists) continue;
+      for (const k in c.mods) if (!WO.util.isNum(c.mods[k])) problems.push(iso + ".mods." + k + " bukan angka");
       for (const f of ["treasury", "manpower", "stability", "exhaustion", "growth"]) if (!WO.util.isNum(c[f])) problems.push(iso + "." + f + " bukan angka");
       if (c.manpower < 0) problems.push(iso + " manpower negatif");
       for (const e of C.EQUIP) if (!WO.util.isNum(c.stock[e]) || c.stock[e] < -1e-6) problems.push(iso + " stok " + e + " tidak valid");

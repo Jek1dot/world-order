@@ -141,8 +141,8 @@
         for (const e in t.eq) { const need = gain / 100 * t.eq[e]; if (need > 0) ratio = Math.min(ratio, c.stock[e] / need); }
         ratio = U.clamp(ratio, 0, 1); gain *= ratio;
         if (gain > 0) {
-          c.manpower -= gain / 100 * t.man;
-          for (const e in t.eq) c.stock[e] -= gain / 100 * t.eq[e];
+          c.manpower = Math.max(0, c.manpower - gain / 100 * t.man);          // pagari: cegah galat desimal negatif
+          for (const e in t.eq) c.stock[e] = Math.max(0, c.stock[e] - gain / 100 * t.eq[e]);
           d.str = Math.min(100, d.str + gain);
         }
       }

@@ -1,7 +1,11 @@
 const WO = require("./load.js");
+const fs = require("fs"), path = require("path");
 const W = WO.World, S = WO.State;
+const useDb = process.argv[4] === "db";
 const days = +process.argv[2] || 365, aggressive = process.argv[3] !== "peace";
-const state = S.newGame({ seed: 99, aiAggressive: aggressive });
+(async () => {
+if (useDb) { WO.DB.setFetcher(async (rel) => JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data/db', rel), 'utf8'))); await WO.DB.init(); await WO.DB.loadEvents(); await WO.DB.loadTrees(); }
+const state = S.newGame({ seed: +process.argv[5] || 99, aiAggressive: aggressive });
 const sum = (f) => W.countryIds.reduce((a, i) => a + f(state.countries[i]), 0);
 const before = { civ: sum((c) => c.agg.civ), mil: sum((c) => c.agg.mil), div: Object.keys(state.divisions).length, lines: sum((c) => c.lines.length), stockR: sum((c) => c.stock.rifles) };
 let worst = 0, total = 0, problems = 0, firstProblem = null;
@@ -29,4 +33,8 @@ const evs = state.log.filter((l) => /KAPITULASI|menyatakan perang|dipindahkan|Pe
 console.log(evs.join("\n"));
 const after = { civ: sum((c) => c.exists ? c.agg.civ : 0), mil: sum((c) => c.exists ? c.agg.mil : 0), div: Object.keys(state.divisions).length, lines: sum((c) => c.lines.length), stockR: sum((c) => c.stock.rifles) };
 console.log('AI ekonomi: pabrik sipil', before.civ, '->', after.civ, '| militer', before.mil, '->', after.mil, '| lini produksi', before.lines, '->', after.lines, '| divisi', before.div, '->', after.div, '| stok senapan', Math.round(before.stockR), '->', Math.round(after.stockR));
+const fo = W.countryIds.filter((i) => state.countries[i].focus.done.length > 0).length, fired = Object.keys(state.events.fired).length;
+console.log('fokus: negara yang menyelesaikan >=1 fokus', fo, '| event teracak menyala', fired);
 process.exit(problems ? 1 : 0);
+
+})();

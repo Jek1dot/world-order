@@ -15,6 +15,8 @@
     WO.Eco.tradeStep(state);
     WO.Eco.prepareDay(state);
     for (const iso of W.countryIds) WO.Eco.tickCountry(state, iso);
+    WO.Focus.tick(state);
+    WO.Events.tick(state);
     WO.AI.tick(state);
     WO.State.refreshAggregates(state);
     WO.Supply.update(state);

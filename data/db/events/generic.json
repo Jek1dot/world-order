@@ -1,0 +1,374 @@
+{
+ "shard": "generic",
+ "events": [
+  {
+   "id": "ev.gen.commodity_boom",
+   "title": "Lonjakan harga komoditas",
+   "classification": "generic_gameplay",
+   "category": "economy",
+   "date": null,
+   "countries": [
+    "*"
+   ],
+   "factual_summary": null,
+   "headline": "HARGA KOMODITAS MELONJAK",
+   "body": "Permintaan ekspor naik tajam dan kas negara mendapat angin segar. Para penasihat berdebat: ditabung, atau dialihkan untuk pembangunan?",
+   "trigger": {
+    "mtth_days": 900,
+    "conditions": [
+     {
+      "type": "min_gdp",
+      "value": 5
+     }
+    ],
+    "once_per_country": false,
+    "scope": "all"
+   },
+   "options": [
+    {
+     "id": "save",
+     "label": "Simpan sebagai cadangan kas",
+     "effects": [
+      {
+       "type": "add_treasury",
+       "pct_gdp": 1.5
+      }
+     ],
+     "ai_weight": 6,
+     "outcome": "gameplay"
+    },
+    {
+     "id": "invest",
+     "label": "Investasikan ke jalan dan pelabuhan",
+     "effects": [
+      {
+       "type": "add_treasury",
+       "pct_gdp": 0.5
+      },
+      {
+       "type": "add_infra_capital",
+       "count": 1
+      }
+     ],
+     "ai_weight": 4,
+     "outcome": "gameplay"
+    }
+   ],
+   "historical_outcome": null,
+   "verification": {
+    "status": "fictional_gameplay",
+    "confidence": "high",
+    "notes": "Konten permainan orisinal; bukan klaim historis"
+   }
+  },
+  {
+   "id": "ev.gen.labor_strike",
+   "title": "Pemogokan buruh pabrik",
+   "classification": "generic_gameplay",
+   "category": "economy",
+   "date": null,
+   "countries": [
+    "*"
+   ],
+   "factual_summary": null,
+   "headline": "PEMOGOKAN MELUMPUHKAN KAWASAN INDUSTRI",
+   "body": "Serikat pekerja menuntut kenaikan upah. Produksi terganggu selama pembicaraan berlangsung.",
+   "trigger": {
+    "mtth_days": 700,
+    "conditions": [
+     {
+      "type": "min_civ",
+      "value": 8
+     }
+    ],
+    "once_per_country": false,
+    "scope": "all"
+   },
+   "options": [
+    {
+     "id": "negotiate",
+     "label": "Berunding dan penuhi sebagian tuntutan",
+     "effects": [
+      {
+       "type": "add_treasury",
+       "pct_gdp": -0.3
+      },
+      {
+       "type": "add_stability",
+       "value": 2
+      }
+     ],
+     "ai_weight": 6,
+     "outcome": "gameplay"
+    },
+    {
+     "id": "crack",
+     "label": "Bubarkan pemogokan",
+     "effects": [
+      {
+       "type": "add_stability",
+       "value": -5
+      },
+      {
+       "type": "mod_add",
+       "mod": "eff",
+       "pct": -3
+      }
+     ],
+     "ai_weight": 3,
+     "outcome": "gameplay"
+    }
+   ],
+   "historical_outcome": null,
+   "verification": {
+    "status": "fictional_gameplay",
+    "confidence": "high",
+    "notes": "Konten permainan orisinal; bukan klaim historis"
+   }
+  },
+  {
+   "id": "ev.gen.foreign_investment",
+   "title": "Tawaran investasi asing",
+   "classification": "generic_gameplay",
+   "category": "economy",
+   "date": null,
+   "countries": [
+    "*"
+   ],
+   "factual_summary": null,
+   "headline": "INVESTOR ASING TAWARKAN MODERNISASI PABRIK",
+   "body": "Konsorsium asing menawarkan teknologi produksi baru dengan imbalan akses pasar dan konsesi.",
+   "trigger": {
+    "mtth_days": 1100,
+    "conditions": [
+     {
+      "type": "min_stability",
+      "value": 45
+     }
+    ],
+    "once_per_country": false,
+    "scope": "all"
+   },
+   "options": [
+    {
+     "id": "accept",
+     "label": "Terima kesepakatan",
+     "effects": [
+      {
+       "type": "mod_add",
+       "mod": "eff",
+       "pct": 5
+      },
+      {
+       "type": "add_stability",
+       "value": -1
+      }
+     ],
+     "ai_weight": 6,
+     "outcome": "gameplay"
+    },
+    {
+     "id": "decline",
+     "label": "Tolak, utamakan kemandirian",
+     "effects": [
+      {
+       "type": "add_stability",
+       "value": 1
+      }
+     ],
+     "ai_weight": 4,
+     "outcome": "gameplay"
+    }
+   ],
+   "historical_outcome": null,
+   "verification": {
+    "status": "fictional_gameplay",
+    "confidence": "high",
+    "notes": "Konten permainan orisinal; bukan klaim historis"
+   }
+  },
+  {
+   "id": "ev.gen.depot_accident",
+   "title": "Kecelakaan gudang amunisi",
+   "classification": "generic_gameplay",
+   "category": "economy",
+   "date": null,
+   "countries": [
+    "*"
+   ],
+   "factual_summary": null,
+   "headline": "LEDAKAN DI DEPOT MILITER",
+   "body": "Ledakan di gudang amunisi menimbulkan korban dan memicu desakan penyelidikan.",
+   "trigger": {
+    "mtth_days": 1400,
+    "conditions": [
+     {
+      "type": "min_divisions",
+      "value": 3
+     }
+    ],
+    "once_per_country": false,
+    "scope": "all"
+   },
+   "options": [
+    {
+     "id": "investigate",
+     "label": "Penyelidikan terbuka dan ganti rugi",
+     "effects": [
+      {
+       "type": "add_treasury",
+       "pct_gdp": -0.2
+      },
+      {
+       "type": "add_stability",
+       "value": 1
+      }
+     ],
+     "ai_weight": 6,
+     "outcome": "gameplay"
+    },
+    {
+     "id": "coverup",
+     "label": "Tutup rapat kasusnya",
+     "effects": [
+      {
+       "type": "add_stability",
+       "value": -3
+      },
+      {
+       "type": "add_stock",
+       "equip": "artillery",
+       "amount": -20
+      }
+     ],
+     "ai_weight": 2,
+     "outcome": "gameplay"
+    }
+   ],
+   "historical_outcome": null,
+   "verification": {
+    "status": "fictional_gameplay",
+    "confidence": "high",
+    "notes": "Konten permainan orisinal; bukan klaim historis"
+   }
+  },
+  {
+   "id": "ev.gen.regional_summit",
+   "title": "Konferensi regional",
+   "classification": "generic_gameplay",
+   "category": "economy",
+   "date": null,
+   "countries": [
+    "*"
+   ],
+   "factual_summary": null,
+   "headline": "PARA PEMIMPIN BERKUMPUL DALAM KTT REGIONAL",
+   "body": "Negara-negara tetangga mengundangmu untuk membahas keamanan dan perdagangan kawasan.",
+   "trigger": {
+    "mtth_days": 800,
+    "conditions": [
+     {
+      "type": "at_peace"
+     }
+    ],
+    "once_per_country": false,
+    "scope": "all"
+   },
+   "options": [
+    {
+     "id": "engage",
+     "label": "Hadir dan dorong kerja sama",
+     "effects": [
+      {
+       "type": "add_opinion_neighbors",
+       "value": 10
+      }
+     ],
+     "ai_weight": 7,
+     "outcome": "gameplay"
+    },
+    {
+     "id": "skip",
+     "label": "Kirim utusan tingkat rendah",
+     "effects": [
+      {
+       "type": "add_stability",
+       "value": 1
+      }
+     ],
+     "ai_weight": 3,
+     "outcome": "gameplay"
+    }
+   ],
+   "historical_outcome": null,
+   "verification": {
+    "status": "fictional_gameplay",
+    "confidence": "high",
+    "notes": "Konten permainan orisinal; bukan klaim historis"
+   }
+  },
+  {
+   "id": "ev.gen.earthquake",
+   "title": "Gempa bumi",
+   "classification": "generic_gameplay",
+   "category": "economy",
+   "date": null,
+   "countries": [
+    "*"
+   ],
+   "factual_summary": null,
+   "headline": "GEMPA GUNCANG WILAYAH PEDALAMAN",
+   "body": "Gempa kuat merusak jalan dan jembatan di salah satu provinsi.",
+   "trigger": {
+    "mtth_days": 1600,
+    "conditions": [],
+    "once_per_country": false,
+    "scope": "all"
+   },
+   "options": [
+    {
+     "id": "relief",
+     "label": "Dana tanggap darurat besar-besaran",
+     "effects": [
+      {
+       "type": "damage_infra",
+       "amount": 1
+      },
+      {
+       "type": "add_treasury",
+       "pct_gdp": -0.4
+      },
+      {
+       "type": "add_stability",
+       "value": 2
+      }
+     ],
+     "ai_weight": 6,
+     "outcome": "gameplay"
+    },
+    {
+     "id": "minimal",
+     "label": "Bantuan seperlunya",
+     "effects": [
+      {
+       "type": "damage_infra",
+       "amount": 2
+      },
+      {
+       "type": "add_stability",
+       "value": -2
+      }
+     ],
+     "ai_weight": 4,
+     "outcome": "gameplay"
+    }
+   ],
+   "historical_outcome": null,
+   "verification": {
+    "status": "fictional_gameplay",
+    "confidence": "high",
+    "notes": "Konten permainan orisinal; bukan klaim historis"
+   }
+  }
+ ]
+}

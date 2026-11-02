@@ -140,7 +140,7 @@
       settings: { aiAggressive: !!opts.aiAggressive },
       provinces: {}, countries: {}, divisions: {}, nextDivId: 1, nextWarId: 1, nextProjId: 1, nextLineId: 1,
       wars: [], diplo: { rel: {}, pacts: [], cd: {}, history: [] },
-      peaceOffers: [], log: [], pendingMessages: [], flags: {},
+      peaceOffers: [], log: [], pendingMessages: [], flags: {}, events: { fired: {} }, dbVersion: null,
     };
 
     for (const id of W.provinceIds) {
@@ -169,6 +169,7 @@
         queue: [], lines: [], divSeq: 0, peakArmy: 0, capitulated: false, capDays: 0, casualties: 0,
         ai: { next: Math.floor(U.hash01(iso + "#ai") * 7) },
         income: null, agg: null, lastReport: null,
+        mods: { constr: 0, eff: 0, atk: 0, def: 0, income: 0, manpower: 0 }, focus: { done: [], current: null }, flags: {}, eventQueue: [],
       };
       state.countries[iso].baseStab = state.countries[iso].stability;
     }

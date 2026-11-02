@@ -1,0 +1,83 @@
+{
+ "db_version": "0.1.0-checkpoint1",
+ "schema": "wo-db v1",
+ "built": "2026-10-30",
+ "range": {
+  "from": "1991-01-01",
+  "to": "2026-12-31"
+ },
+ "files": [
+  {
+   "kind": "sources",
+   "path": "sources/sources.json",
+   "key": "sources",
+   "bytes": 3816,
+   "sha256": "69dae73334693d97",
+   "count": 10
+  },
+  {
+   "kind": "countries",
+   "path": "countries/southeast-asia.json",
+   "key": "southeast-asia",
+   "bytes": 18701,
+   "sha256": "dcb7e397e8898802",
+   "count": 11
+  },
+  {
+   "kind": "countries",
+   "path": "countries/unprocessed.json",
+   "key": "unprocessed",
+   "bytes": 389054,
+   "sha256": "37a2b7144d27a5cc",
+   "count": 239
+  },
+  {
+   "kind": "leaders",
+   "path": "leaders/IDN.json",
+   "key": "IDN",
+   "bytes": 18099,
+   "sha256": "a17a1cb533e3ed30",
+   "count": 17
+  },
+  {
+   "kind": "equipment",
+   "path": "equipment/small-arms-pilot.json",
+   "key": "small-arms-pilot",
+   "bytes": 12646,
+   "sha256": "03023f9f6c0032c5",
+   "count": 3
+  },
+  {
+   "kind": "inventories",
+   "path": "inventories/pilot.json",
+   "key": "pilot",
+   "bytes": 152,
+   "sha256": "c09f9ba0ee91ccd1",
+   "count": 0
+  },
+  {
+   "kind": "events",
+   "path": "events/generic.json",
+   "key": "generic",
+   "bytes": 7867,
+   "sha256": "00a98fb6850a9403",
+   "count": 6
+  },
+  {
+   "kind": "events",
+   "path": "events/indonesia-historical.json",
+   "key": "indonesia-historical",
+   "bytes": 6333,
+   "sha256": "f2801e422573ca73",
+   "count": 5
+  },
+  {
+   "kind": "focus",
+   "path": "focus/generic.json",
+   "key": "generic",
+   "bytes": 14454,
+   "sha256": "3da0bfa48a9a35fd",
+   "count": 1
+  }
+ ]
+}

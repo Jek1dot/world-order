@@ -32,6 +32,7 @@
     let v = (isAttack ? t.atk : t.def) * (0.5 + 0.5 * d.org / t.org) * (0.3 + 0.7 * d.str / 100);
     v *= (0.6 + 0.4 * d.supply) * (1 + d.xp / 400) * terrainMul;
     if (t.oil > 0) v *= 0.4 + 0.6 * (c.oilF === undefined ? 1 : c.oilF);
+    v *= WO.Fx.mult(c, isAttack ? "atk" : "def");
     return v;
   }
   function strongestCountry(divs) {
@@ -85,6 +86,7 @@
     for (const b of battles.values()) {
       const pid = b.pid, sp = state.provinces[pid], ctrl = sp.controller;
       let att = [...b.att].filter((x) => state.divisions[x.id]);
+      if (!att.length) continue;                       // semua penyerang sudah hancur di pertempuran lain pada tick ini
       const defAll = activeIn(state, pid).filter((x) => x.country === ctrl || WO.Dip.isAllied(state, ctrl, x.country));
       if (!defAll.length) {
         const inside = att.filter((x) => x.province === pid);

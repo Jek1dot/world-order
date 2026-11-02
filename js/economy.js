@@ -128,7 +128,7 @@
     const eff = sm * coalF;
 
     // 3. konstruksi
-    let cap = a.civ * C.CONSTR_PER_CIV * eff;
+    let cap = a.civ * C.CONSTR_PER_CIV * eff * WO.Fx.mult(c, "constr");
     rep.constrCap = cap;
     for (let i = 0; i < c.queue.length && cap > 0.001; i++) {
       const q = c.queue[i], sp = state.provinces[q.province];
@@ -152,7 +152,7 @@
     const scale = used > a.mil ? a.mil / used : 1;                       // pabrik hilang (diduduki) -> lini menyusut
     for (const l of c.lines) {
       const info = C.EQUIP_INFO[l.equip];
-      const pp = l.factories * scale * C.PP_PER_MIL * l.eff * eff;
+      const pp = l.factories * scale * C.PP_PER_MIL * l.eff * eff * WO.Fx.mult(c, "eff");
       let items = pp / info.pp, ratio = 1;
       for (const r in info.res) { const need = items * info.res[r]; if (need > 0) ratio = Math.min(ratio, c.res[r] / need); }
       ratio = U.clamp(ratio, 0, 1); items *= ratio;
@@ -165,7 +165,7 @@
     for (const r of C.RESOURCES) c.res[r] = Math.min(c.res[r], Math.max(500, a.res[r] * 90));
 
     // 6. kas
-    const income = a.gdp / 365 * 0.20 * sm;
+    const income = a.gdp / 365 * 0.20 * sm * WO.Fx.mult(c, "income");
     const upkeep = nDiv * 0.004, warCost = nFight * 0.01;
     c.treasury += income - upkeep - warCost;
     rep.income = income; rep.upkeep = upkeep; rep.war = warCost;
@@ -173,7 +173,7 @@
     // 7. manpower
     const max = Math.max(1, a.popM * 1e6 * 0.03);
     c.manpowerMax = Math.round(max);
-    c.manpower = Math.min(max, c.manpower + a.popM * 1e6 * 0.00005 * sm);
+    c.manpower = Math.min(max, c.manpower + a.popM * 1e6 * 0.00005 * sm * WO.Fx.mult(c, "manpower"));
 
     // 8. pertumbuhan, kelelahan perang, stabilitas
     const atWar = state.rt.enemies[iso].size > 0;

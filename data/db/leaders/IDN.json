@@ -1,0 +1,784 @@
+{
+ "country": "IDN",
+ "scope": "Presiden & wakil presiden 1988–2026. Belum: menteri pertahanan/luar negeri/keuangan, panglima TNI, kepala staf, pemimpin partai.",
+ "persons": [
+  {
+   "id": "person.suharto",
+   "name": "Suharto",
+   "country": "IDN",
+   "birth": "1921-06-08",
+   "death": "2008-01-27",
+   "gameplay_skill": null,
+   "unknown_fields": {},
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal lahir/wafat dari tabel masa jabatan presiden"
+   }
+  },
+  {
+   "id": "person.bj_habibie",
+   "name": "B. J. Habibie",
+   "country": "IDN",
+   "birth": "1936-06-25",
+   "death": "2019-09-11",
+   "gameplay_skill": null,
+   "unknown_fields": {},
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal lahir/wafat dari tabel masa jabatan presiden"
+   }
+  },
+  {
+   "id": "person.abdurrahman_wahid",
+   "name": "Abdurrahman Wahid",
+   "country": "IDN",
+   "birth": "1940-09-07",
+   "death": "2009-12-30",
+   "gameplay_skill": null,
+   "unknown_fields": {},
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal lahir/wafat dari tabel masa jabatan presiden"
+   }
+  },
+  {
+   "id": "person.megawati_sukarnoputri",
+   "name": "Megawati Sukarnoputri",
+   "country": "IDN",
+   "birth": "1947-01-23",
+   "death": null,
+   "gameplay_skill": null,
+   "unknown_fields": {},
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal lahir/wafat dari tabel masa jabatan presiden"
+   }
+  },
+  {
+   "id": "person.susilo_bambang_yudhoyono",
+   "name": "Susilo Bambang Yudhoyono",
+   "country": "IDN",
+   "birth": "1949-09-09",
+   "death": null,
+   "gameplay_skill": null,
+   "unknown_fields": {},
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal lahir/wafat dari tabel masa jabatan presiden"
+   }
+  },
+  {
+   "id": "person.joko_widodo",
+   "name": "Joko Widodo",
+   "country": "IDN",
+   "birth": "1961-06-21",
+   "death": null,
+   "gameplay_skill": null,
+   "unknown_fields": {},
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal lahir/wafat dari tabel masa jabatan presiden"
+   }
+  },
+  {
+   "id": "person.prabowo_subianto",
+   "name": "Prabowo Subianto",
+   "country": "IDN",
+   "birth": "1951-10-17",
+   "death": null,
+   "gameplay_skill": null,
+   "unknown_fields": {},
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal lahir/wafat dari tabel masa jabatan presiden"
+   }
+  },
+  {
+   "id": "person.sudharmono",
+   "name": "Sudharmono",
+   "country": "IDN",
+   "birth": null,
+   "death": null,
+   "gameplay_skill": null,
+   "unknown_fields": {
+    "birth": "tidak tercantum di tabel yang dibaca"
+   },
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Hanya nama & masa jabatan dari tabel"
+   }
+  },
+  {
+   "id": "person.try_sutrisno",
+   "name": "Try Sutrisno",
+   "country": "IDN",
+   "birth": null,
+   "death": null,
+   "gameplay_skill": null,
+   "unknown_fields": {
+    "birth": "tidak tercantum di tabel yang dibaca"
+   },
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Hanya nama & masa jabatan dari tabel"
+   }
+  },
+  {
+   "id": "person.hamzah_haz",
+   "name": "Hamzah Haz",
+   "country": "IDN",
+   "birth": null,
+   "death": null,
+   "gameplay_skill": null,
+   "unknown_fields": {
+    "birth": "tidak tercantum di tabel yang dibaca"
+   },
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Hanya nama & masa jabatan dari tabel"
+   }
+  },
+  {
+   "id": "person.jusuf_kalla",
+   "name": "Jusuf Kalla",
+   "country": "IDN",
+   "birth": null,
+   "death": null,
+   "gameplay_skill": null,
+   "unknown_fields": {
+    "birth": "tidak tercantum di tabel yang dibaca"
+   },
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Hanya nama & masa jabatan dari tabel"
+   }
+  },
+  {
+   "id": "person.boediono",
+   "name": "Boediono",
+   "country": "IDN",
+   "birth": null,
+   "death": null,
+   "gameplay_skill": null,
+   "unknown_fields": {
+    "birth": "tidak tercantum di tabel yang dibaca"
+   },
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Hanya nama & masa jabatan dari tabel"
+   }
+  },
+  {
+   "id": "person.maruf_amin",
+   "name": "Ma'ruf Amin",
+   "country": "IDN",
+   "birth": null,
+   "death": null,
+   "gameplay_skill": null,
+   "unknown_fields": {
+    "birth": "tidak tercantum di tabel yang dibaca"
+   },
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Hanya nama & masa jabatan dari tabel"
+   }
+  },
+  {
+   "id": "person.gibran_rakabuming_raka",
+   "name": "Gibran Rakabuming Raka",
+   "country": "IDN",
+   "birth": null,
+   "death": null,
+   "gameplay_skill": null,
+   "unknown_fields": {
+    "birth": "tidak tercantum di tabel yang dibaca"
+   },
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Hanya nama & masa jabatan dari tabel"
+   }
+  }
+ ],
+ "tenures": [
+  {
+   "id": "ten.IDN.president.1968-03-27",
+   "person": "person.suharto",
+   "country": "IDN",
+   "roles": [
+    "head_of_state",
+    "head_of_government"
+   ],
+   "office_title": "President of Indonesia",
+   "start": {
+    "date": "1968-03-27",
+    "precision": "day"
+   },
+   "end": {
+    "date": "1998-05-21",
+    "precision": "day"
+   },
+   "party": "Golkar",
+   "party_status": "partially_verified",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   },
+   "end_reason": "mengundurkan diri",
+   "notes": "Sebelumnya pejabat presiden 1967-03-12 s.d. 1968-03-27 (di luar cakupan 1991–2026)"
+  },
+  {
+   "id": "ten.IDN.president.1998-05-21",
+   "person": "person.bj_habibie",
+   "country": "IDN",
+   "roles": [
+    "head_of_state",
+    "head_of_government"
+   ],
+   "office_title": "President of Indonesia",
+   "start": {
+    "date": "1998-05-21",
+    "precision": "day"
+   },
+   "end": {
+    "date": "1999-10-20",
+    "precision": "day"
+   },
+   "party": "Golkar",
+   "party_status": "partially_verified",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   },
+   "end_reason": "tidak mencalonkan diri (pertanggungjawaban ditolak MPR)"
+  },
+  {
+   "id": "ten.IDN.president.1999-10-20",
+   "person": "person.abdurrahman_wahid",
+   "country": "IDN",
+   "roles": [
+    "head_of_state",
+    "head_of_government"
+   ],
+   "office_title": "President of Indonesia",
+   "start": {
+    "date": "1999-10-20",
+    "precision": "day"
+   },
+   "end": {
+    "date": "2001-07-23",
+    "precision": "day"
+   },
+   "party": "PKB",
+   "party_status": "partially_verified",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   },
+   "end_reason": "dimakzulkan MPR"
+  },
+  {
+   "id": "ten.IDN.president.2001-07-23",
+   "person": "person.megawati_sukarnoputri",
+   "country": "IDN",
+   "roles": [
+    "head_of_state",
+    "head_of_government"
+   ],
+   "office_title": "President of Indonesia",
+   "start": {
+    "date": "2001-07-23",
+    "precision": "day"
+   },
+   "end": {
+    "date": "2004-10-20",
+    "precision": "day"
+   },
+   "party": "PDI-P",
+   "party_status": "partially_verified",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   }
+  },
+  {
+   "id": "ten.IDN.president.2004-10-20",
+   "person": "person.susilo_bambang_yudhoyono",
+   "country": "IDN",
+   "roles": [
+    "head_of_state",
+    "head_of_government"
+   ],
+   "office_title": "President of Indonesia",
+   "start": {
+    "date": "2004-10-20",
+    "precision": "day"
+   },
+   "end": {
+    "date": "2014-10-20",
+    "precision": "day"
+   },
+   "party": "Demokrat",
+   "party_status": "partially_verified",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   },
+   "notes": "Dua periode (2004–2009, 2009–2014)"
+  },
+  {
+   "id": "ten.IDN.president.2014-10-20",
+   "person": "person.joko_widodo",
+   "country": "IDN",
+   "roles": [
+    "head_of_state",
+    "head_of_government"
+   ],
+   "office_title": "President of Indonesia",
+   "start": {
+    "date": "2014-10-20",
+    "precision": "day"
+   },
+   "end": {
+    "date": "2024-10-20",
+    "precision": "day"
+   },
+   "party": "PDI-P",
+   "party_status": "partially_verified",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   },
+   "notes": "Dua periode (2014–2019, 2019–2024)"
+  },
+  {
+   "id": "ten.IDN.president.2024-10-20",
+   "person": "person.prabowo_subianto",
+   "country": "IDN",
+   "roles": [
+    "head_of_state",
+    "head_of_government"
+   ],
+   "office_title": "President of Indonesia",
+   "start": {
+    "date": "2024-10-20",
+    "precision": "day"
+   },
+   "end": null,
+   "ongoing_as_of": "2026-08-29",
+   "party": "Gerindra",
+   "party_status": "partially_verified",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   }
+  },
+  {
+   "id": "ten.IDN.vp.1988-03-11",
+   "person": "person.sudharmono",
+   "country": "IDN",
+   "roles": [
+    "deputy_head_of_state"
+   ],
+   "office_title": "Vice President of Indonesia",
+   "start": {
+    "date": "1988-03-11",
+    "precision": "day"
+   },
+   "end": {
+    "date": "1993-03-11",
+    "precision": "day"
+   },
+   "party": null,
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   }
+  },
+  {
+   "id": "ten.IDN.vp.1993-03-11",
+   "person": "person.try_sutrisno",
+   "country": "IDN",
+   "roles": [
+    "deputy_head_of_state"
+   ],
+   "office_title": "Vice President of Indonesia",
+   "start": {
+    "date": "1993-03-11",
+    "precision": "day"
+   },
+   "end": {
+    "date": "1998-03-11",
+    "precision": "day"
+   },
+   "party": null,
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   }
+  },
+  {
+   "id": "ten.IDN.vp.1998-03-11",
+   "person": "person.bj_habibie",
+   "country": "IDN",
+   "roles": [
+    "deputy_head_of_state"
+   ],
+   "office_title": "Vice President of Indonesia",
+   "start": {
+    "date": "1998-03-11",
+    "precision": "day"
+   },
+   "end": {
+    "date": "1998-05-21",
+    "precision": "day"
+   },
+   "party": null,
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   },
+   "end_reason": "menjadi presiden"
+  },
+  {
+   "id": "ten.IDN.vp.1999-10-21",
+   "person": "person.megawati_sukarnoputri",
+   "country": "IDN",
+   "roles": [
+    "deputy_head_of_state"
+   ],
+   "office_title": "Vice President of Indonesia",
+   "start": {
+    "date": "1999-10-21",
+    "precision": "day"
+   },
+   "end": {
+    "date": "2001-07-23",
+    "precision": "day"
+   },
+   "party": null,
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal mulai disimpulkan dari rentang 'Vacant (20–21 October 1999)' di tabel"
+   },
+   "end_reason": "menjadi presiden"
+  },
+  {
+   "id": "ten.IDN.vp.2001-07-26",
+   "person": "person.hamzah_haz",
+   "country": "IDN",
+   "roles": [
+    "deputy_head_of_state"
+   ],
+   "office_title": "Vice President of Indonesia",
+   "start": {
+    "date": "2001-07-26",
+    "precision": "day"
+   },
+   "end": {
+    "date": "2004-10-20",
+    "precision": "day"
+   },
+   "party": null,
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal mulai disimpulkan dari 'Vacant (23–26 July 2001)'"
+   }
+  },
+  {
+   "id": "ten.IDN.vp.2004-10-20",
+   "person": "person.jusuf_kalla",
+   "country": "IDN",
+   "roles": [
+    "deputy_head_of_state"
+   ],
+   "office_title": "Vice President of Indonesia",
+   "start": {
+    "date": "2004-10-20",
+    "precision": "day"
+   },
+   "end": {
+    "date": "2009-10-20",
+    "precision": "day"
+   },
+   "party": null,
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   }
+  },
+  {
+   "id": "ten.IDN.vp.2009-10-20",
+   "person": "person.boediono",
+   "country": "IDN",
+   "roles": [
+    "deputy_head_of_state"
+   ],
+   "office_title": "Vice President of Indonesia",
+   "start": {
+    "date": "2009-10-20",
+    "precision": "day"
+   },
+   "end": {
+    "date": "2014-10-20",
+    "precision": "day"
+   },
+   "party": null,
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   }
+  },
+  {
+   "id": "ten.IDN.vp.2014-10-20",
+   "person": "person.jusuf_kalla",
+   "country": "IDN",
+   "roles": [
+    "deputy_head_of_state"
+   ],
+   "office_title": "Vice President of Indonesia",
+   "start": {
+    "date": "2014-10-20",
+    "precision": "day"
+   },
+   "end": {
+    "date": "2019-10-20",
+    "precision": "day"
+   },
+   "party": null,
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   },
+   "notes": "Masa jabatan kedua Jusuf Kalla"
+  },
+  {
+   "id": "ten.IDN.vp.2019-10-20",
+   "person": "person.maruf_amin",
+   "country": "IDN",
+   "roles": [
+    "deputy_head_of_state"
+   ],
+   "office_title": "Vice President of Indonesia",
+   "start": {
+    "date": "2019-10-20",
+    "precision": "day"
+   },
+   "end": {
+    "date": "2024-10-20",
+    "precision": "day"
+   },
+   "party": null,
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   }
+  },
+  {
+   "id": "ten.IDN.vp.2024-10-20",
+   "person": "person.gibran_rakabuming_raka",
+   "country": "IDN",
+   "roles": [
+    "deputy_head_of_state"
+   ],
+   "office_title": "Vice President of Indonesia",
+   "start": {
+    "date": "2024-10-20",
+    "precision": "day"
+   },
+   "end": null,
+   "ongoing_as_of": "2026-08-29",
+   "party": null,
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30",
+    "notes": "Tanggal dari kolom 'Took office/Left office' tabel presiden"
+   }
+  }
+ ],
+ "vacancies": [
+  {
+   "country": "IDN",
+   "role": "deputy_head_of_state",
+   "start": "1998-05-21",
+   "end": "1999-10-21",
+   "reason": "Kursi wakil presiden kosong (kolom 'Vacant') selama masa jabatan Habibie dan hingga pemilihan Megawati",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30"
+   }
+  },
+  {
+   "country": "IDN",
+   "role": "deputy_head_of_state",
+   "start": "2001-07-23",
+   "end": "2001-07-26",
+   "reason": "Kosong setelah Megawati menjadi presiden; Hamzah Haz terpilih 26 Juli 2001",
+   "verification": {
+    "status": "partially_verified",
+    "confidence": "medium",
+    "sources": [
+     "S-WP-PRES-IDN"
+    ],
+    "checked": "2026-10-30"
+   }
+  }
+ ]
+}
